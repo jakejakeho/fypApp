@@ -11,26 +11,41 @@ var fbtoken = {
   "token": null,
   "expires": null,
 };
+var tokenValid = false;
 class Home extends Component {
-
-
-  async logInFB() {
-
-    // get fbtoken from asyncStorage
+  async storeToken(token) {
     try {
-      fbtoken = await AsyncStorage.getItem("fbtoken");
-      if (fbtoken != null) {
-        fbtoken = JSON.parse(fbtoken);
-      }
+      //we want to wait for the Promise returned by AsyncStorage.setItem()
+      //to be resolved to the actual value before returning the value
+      var jsonOfItem = await AsyncStorage.setItem("fbtoken", JSON.stringify(token));
     } catch (error) {
       console.log(error.message);
     }
-    console.log(fbtoken);
+  }
+  async retrieveTroken() {
+    try {
+      const retrievedItem = await AsyncStorage.getItem("fbtoken");
+      fbtoken = JSON.parse(retrievedItem);
+    } catch (error) {
+      console.log(error.message);
+    }
     // calculate whether the token is expired
     var milliseconds = (new Date).getTime() / 1000;
     var difference = (fbtoken.expires - milliseconds);
+    tokenValid = !(difference < 0 || fbtoken === null || fbtoken.token === null || fbtoken.token === null);
+    if (tokenValid) {
+      this.navigateToMain();
+    }
+  }
+
+  async navigateToMain() {
+    const response = await fetch(`https://graph.facebook.com/me?access_token=${fbtoken.token}`);
+    Alert.alert("Logged in!", `Hi ${(await response.json()).name}!`);
+    this.props.navigation.navigate("BasicFooter");
+  }
+  async logInFB() {
     // check if there is valid fbtoken if not then login 
-    if (difference < 0 || fbtoken === null || fbtoken.token === null || fbtoken.token === null) {
+    if (!tokenValid) {
       try {
         const {
           type,
@@ -45,19 +60,11 @@ class Home extends Component {
           // Get the user's name using Facebook's Graph API
           const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
           Alert.alert("Logged in!", `Hi ${(await response.json()).name}!`);
-          const fbtoken = {
+          // save token in asyncStoarge
+          this.props.storeToken({
             "token": token,
             "expires": expires,
-          };
-          // save token in asyncStoarge
-          (async () => {
-            try {
-              var jsonOfItem = await AsyncStorage.setItem("fbtoken", JSON.stringify(fbtoken));
-              return jsonOfItem;
-            } catch (error) {
-              console.log(error.message);
-            }
-          })();
+          });
         } else {
           // type === 'cancel'
         }
@@ -65,13 +72,12 @@ class Home extends Component {
         alert(`Facebook Login Error: ${message}`);
       }
     } else {
-      const response = await fetch(`https://graph.facebook.com/me?access_token=${fbtoken.token}`);
-      Alert.alert("Logged in!", `Hi ${(await response.json()).name}!`);
-      this.props.navigation.navigate("Anatomy");
+      this.props.navigateToMain();
     }
   }
 
   render() {
+    this.retrieveTroken();
     return (
       <Container>
         <StatusBar barStyle="light-content" />
