@@ -9,6 +9,9 @@
     },
     "orientation": "portrait",
     "primaryColor": "#cccccc",
+    "facebookScheme": "fb350048155565502",
+    "facebookAppId": "350048155565502",
+    "facebookDisplayName": "Jake's first app",
     "packagerOpts": {
       "assetExts": [
         "ttf"
