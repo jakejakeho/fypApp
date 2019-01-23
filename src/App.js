@@ -120,6 +120,9 @@ import SideBar from "./screens/sidebar";
 import Segment from "./screens/segment";
 import NHToast from "./screens/toast/";
 import Actionsheet from "./screens/actionsheet";
+import MovieList from "./screens/movies/MovieList";
+import MovieInfo from "./screens/movies/MovieInfo";
+import MovieDetail from "./screens/movies/MovieDetail";
 
 const Drawer = DrawerNavigator(
   {
@@ -267,7 +270,10 @@ const AppNavigator = StackNavigator(
     ToastButton: { screen: ToastButton },
 
     RegularActionSheet: { screen: RegularActionSheet },
-    IconActionSheet: { screen: IconActionSheet }
+    IconActionSheet: { screen: IconActionSheet },
+
+    MovieList: { screen: MovieList },
+    MovieInfo: { screen: MovieInfo }
   },
   {
     initialRouteName: "Drawer",

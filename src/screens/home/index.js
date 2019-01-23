@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { ImageBackground, View, StatusBar, Alert, AsyncStorage } from "react-native";
+import { ImageBackground, View, StatusBar } from "react-native";
 import { Container, Button, H3, Text } from "native-base";
-import Expo from "expo";
+
 import styles from "./styles";
 
 const launchscreenBg = require("../../../assets/launchscreen-bg.png");
@@ -12,8 +12,9 @@ var fbtoken = {
   "expires": null,
 };
 var tokenValid = false;
-class Home extends Component {
 
+
+class Home extends Component {
   render() {
     // this.retrieveTroken();
     return (
@@ -39,7 +40,7 @@ class Home extends Component {
             <Button
               style={{ backgroundColor: "#6FAF98", alignSelf: "center" }}
               onPress={() => {
-                this.props.navigation.navigate("IconFooter");
+                this.props.navigation.navigate("MovieList");
               }
               }
             >

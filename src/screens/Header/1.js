@@ -19,16 +19,10 @@ class Header1 extends Component {
         <Header>
           <Left />
           <Body>
-            <Title>Header</Title>
+            <Title>{this.props.headerText}</Title>
           </Body>
           <Right />
         </Header>
-
-        <Content padder>
-          <Button onPress={() => this.props.navigation.goBack()}>
-            <Text>Back</Text>
-          </Button>
-        </Content>
       </Container>
     );
   }
