@@ -9,7 +9,7 @@ export default class MovieList extends Component {
         state = { movies: [], screenHeight: 0 };
 
         componentWillMount() {
-            fetch('http://localhost:3000/movies')
+            fetch('http://fypbackend.mooo.com/movies')
             .then((res) => res.json())
             .then((response)=>{
                 this.setState({movies: response});
