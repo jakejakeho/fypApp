@@ -94,6 +94,7 @@ import AdvSegment from "./screens/segment/segmentTab";
 import SimpleDeck from "./screens/deckswiper/simple";
 import AdvancedDeck from "./screens/deckswiper/advanced";
 
+import Login from "./screens/login/login";
 import Home from "./screens/home/";
 import Anatomy from "./screens/anatomy/";
 import Footer from "./screens/footer/";
@@ -126,6 +127,7 @@ import MovieDetail from "./screens/movies/MovieDetail";
 
 const Drawer = DrawerNavigator(
   {
+    Login: {screen: Login},
     Home: { screen: Home },
     Anatomy: { screen: Anatomy },
     Header: { screen: Header },
@@ -153,7 +155,7 @@ const Drawer = DrawerNavigator(
     Actionsheet: { screen: Actionsheet }
   },
   {
-    initialRouteName: "Home",
+    initialRouteName: "Login",
     contentOptions: {
       activeTintColor: "#e91e63"
     },
@@ -164,6 +166,8 @@ const Drawer = DrawerNavigator(
 const AppNavigator = StackNavigator(
   {
     Drawer: { screen: Drawer },
+
+    Login: {screen: Login},
 
     Header1: { screen: Header1 },
     Header2: { screen: Header2 },
