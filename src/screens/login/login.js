@@ -65,6 +65,7 @@ export default class LoginScreen extends Component {
         this.props.navigation.navigate('DrawerOpen');
         this.props.navigation.navigate("MovieList");
       } else {
+        alert("Incorrect Username/ password!");
         console.log('error');
       }
     });
