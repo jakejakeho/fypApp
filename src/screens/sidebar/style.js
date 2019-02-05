@@ -12,13 +12,25 @@ export default {
     position: "relative",
     marginBottom: 10
   },
+  profileView: {
+    left: deviceWidth / 14,
+    top: deviceHeight / 16,
+    height: null,
+    width: null,
+  },
   drawerImage: {
-    position: "absolute",
-    left: Platform.OS === "android" ? deviceWidth / 10 : deviceWidth / 9,
-    top: Platform.OS === "android" ? deviceHeight / 13 : deviceHeight / 12,
-    width: 210,
-    height: 75,
-    resizeMode: "cover"
+    height: 80,
+    borderRadius: 45,
+    width: 80,
+    resizeMode: 'cover',
+  },
+  drawerUser: {
+    marginTop: 20,
+    color: 'white',
+  },
+  drawerEmail: {
+    marginTop: 5,
+    color: 'white',
   },
   text: {
     fontWeight: Platform.OS === "ios" ? "500" : "400",

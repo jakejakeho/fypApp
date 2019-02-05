@@ -8,7 +8,7 @@ const MovieDetail = ({ movie, navigate }) =>{
   
 
     const { containerStyle, headerContentStyle, titleTextStyle,genresTextStyle, posterStyle } = styles;
-    const { _id, title, genres, poster_path, overview } = movie;
+    const { _id, movieId, title, genres, poster_path, overview } = movie;
     
     return (
 
@@ -27,7 +27,7 @@ const MovieDetail = ({ movie, navigate }) =>{
             </CardSection>
 
             <CardSection>
-                <Button onPress={() => navigate('MovieInfo', {overview, poster_path})}>
+                <Button onPress={() => navigate('MovieInfo', {movieId, title,overview, poster_path})}>
                     More Info
                 </Button>
             </CardSection>

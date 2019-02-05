@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { Image } from "react-native";
+import { Image, ImageBackground, View } from "react-native";
+import DrawerLayout from 'react-native-drawer-layout';
+import { NavigationEvents } from 'react-navigation';
 import {
   Content,
   Text,
@@ -9,13 +11,31 @@ import {
   Container,
   Left,
   Right,
-  Badge
+  Badge,
 } from "native-base";
 import styles from "./style";
-
+import Utility from '../../Utility'
 const drawerCover = require("../../../assets/drawer-cover.png");
-const drawerImage = require("../../../assets/logo-kitchen-sink.png");
+const profileImage = require("../../../assets/icon.jpg");
 const datas = [
+  {
+    name: "Movies",
+    route: "MovieList",
+    icon: "phone-portrait",
+    bg: "#C5F442"
+  },
+  {
+    name: "History",
+    route: "MovieHistoryList",
+    icon: "phone-portrait",
+    bg: "#C5F442"
+  },
+  {
+    name: "Logout",
+    route: "Logout",
+    icon: "phone-portrait",
+    bg: "#C5F442"
+  },
   {
     name: "Anatomy",
     route: "Anatomy",
@@ -182,10 +202,32 @@ class SideBar extends Component {
     super(props);
     this.state = {
       shadowOffsetWidth: 1,
-      shadowRadius: 4
+      shadowRadius: 4,
+      profile: null,
+      name: null,
+      email: null,
     };
   }
 
+  componentWillReceiveProps() {
+    this.profileUpdate()
+  }
+
+  profileUpdate() {
+    Utility.getUserDetail().then((res) => {
+      if (res != 'error' && res != null) {
+        console.log("profile Update");
+        this.setState((oldState) => {
+          oldState.profile = "https://fypbackend.mooo.com/" + res.userImage;
+          oldState.name = res.name;
+          oldState.email = res.email;
+          return oldState;
+        });
+      } else {
+        console.log('profile update failed');
+      }
+    });
+  }
   render() {
     return (
       <Container>
@@ -193,9 +235,20 @@ class SideBar extends Component {
           bounces={false}
           style={{ flex: 1, backgroundColor: "#fff", top: -1 }}
         >
-          <Image source={drawerCover} style={styles.drawerCover} />
-          <Image square style={styles.drawerImage} source={drawerImage} />
+          <ImageBackground source={drawerCover} style={styles.drawerCover}>
+            <View style={styles.profileView}>
 
+              {this.state.profile && (
+                <Image source={{ uri: this.state.profile }} style={styles.drawerImage} />)}
+              {!this.state.profile && (
+                <Image source={profileImage} style={styles.drawerImage} />)}
+              {this.state.name && (
+                <Text style={styles.drawerUser} >{this.state.name}</Text>)}
+              {this.state.email && (
+                <Text style={styles.drawerEmail} >{this.state.email}</Text>)}
+            </View>
+
+          </ImageBackground>
           <List
             dataArray={datas}
             renderRow={data =>

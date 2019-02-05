@@ -17,11 +17,11 @@ import MovieDetail from './MovieDetail';
 import Utility from '../../Utility'
 const { height } = Dimensions.get('window');
 
-export default class MovieList extends Component {
+export default class MovieHistoryList extends Component {
     state = { movies: [], screenHeight: 0 };
 
     componentWillMount() {
-        Utility.getMovieList().then((response) => {
+        Utility.getMovieHistoryList().then((response) => {
             this.setState({ movies: response });
         });
     }
@@ -51,7 +51,7 @@ export default class MovieList extends Component {
                         </Button>
                     </Left>
                     <Body>
-                        <Title>Movies</Title>
+                        <Title>History</Title>
                     </Body>
                     <Right />
                 </Header>
