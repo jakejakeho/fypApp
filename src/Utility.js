@@ -50,7 +50,7 @@ export default class Utility {
 
     static async login(username, password) {
         try {
-            let response = await fetch('https://fypbackend.mooo.com/oauth/token', {
+            let response = await fetch('https://fypbackend.mooo.com/users/login', {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Basic bW9iaWxlYXBwOmF3ZXNvbWVmeXA=',
@@ -106,11 +106,61 @@ export default class Utility {
         }
     }
 
+    static async insertHistory(history) {
+        let token = await Utility.getToken();
+        try {
+            console.log("inserting history");
+            let response = await fetch('https://fypbackend.mooo.com/users/history', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                  },
+                  body: Utility.parseBody({
+                    'movieId': history.movieId,
+                    'startDate': history.startDate,
+                    'endDate': history.endDate
+                })
+            });
+            let responseJson = await response.json();
+            console.log(responseJson);
+            if (responseJson.code == null) {
+                return 'success';
+            } else {
+                return 'error';
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     static async getMovieList() {
         let token = await Utility.getToken();
         console.log("getMoive = " + token);
         try {
-            let response = await fetch('http://fypbackend.mooo.com/movies', {
+            let response = await fetch('http://fypbackend.mooo.com/users/recommend', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+            });
+            let responseJson = await response.json();
+            if (responseJson.code == null) {
+                return responseJson;
+            } else {
+                return 'error';
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    static async getMovieHistoryList() {
+        let token = await Utility.getToken();
+        console.log("getMoiveHistory = " + token);
+        try {
+            let response = await fetch('http://fypbackend.mooo.com/users/history', {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -132,7 +182,7 @@ export default class Utility {
         let token = await Utility.getToken();
         console.log("getMoive = " + token);
         try {
-            let response = await fetch('http://fypbackend.mooo.com/users', {
+            let response = await fetch('http://fypbackend.mooo.com/users/info', {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -140,6 +190,7 @@ export default class Utility {
                 },
             });
             let responseJson = await response.json();
+            console.log(responseJson);
             if (responseJson.code == null) {
                 return responseJson;
             } else {

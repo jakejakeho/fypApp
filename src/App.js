@@ -124,6 +124,7 @@ import Segment from "./screens/segment";
 import NHToast from "./screens/toast/";
 import Actionsheet from "./screens/actionsheet";
 import MovieList from "./screens/movies/MovieList";
+import MovieHistoryList from "./screens/movies/MovieHistoryList";
 import MovieInfo from "./screens/movies/MovieInfo";
 import MovieDetail from "./screens/movies/MovieDetail";
 
@@ -133,6 +134,7 @@ const Drawer = DrawerNavigator(
     Logout: { screen: Logout, navigationOptions: { drawerLockMode: 'locked-closed' } },
     Signup: { screen: Signup, navigationOptions: { drawerLockMode: 'locked-closed' } },
     MovieList: { screen: MovieList },
+    MovieHistoryList: { screen: MovieHistoryList},
     Anatomy: { screen: Anatomy },
     Header: { screen: Header },
     Footer: { screen: Footer },

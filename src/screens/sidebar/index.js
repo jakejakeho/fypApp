@@ -25,6 +25,12 @@ const datas = [
     bg: "#C5F442"
   },
   {
+    name: "History",
+    route: "MovieHistoryList",
+    icon: "phone-portrait",
+    bg: "#C5F442"
+  },
+  {
     name: "Logout",
     route: "Logout",
     icon: "phone-portrait",

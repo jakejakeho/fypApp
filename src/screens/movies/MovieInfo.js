@@ -14,6 +14,7 @@ import {
 } from "native-base";
 import Card from '../card/Card';
 import CardSection from '../card/CardSection';
+import Utility from '../../Utility';
 
 
 
@@ -21,10 +22,31 @@ class MovieInfo extends Component {
     static navigationOptions = {
         title: 'MovieInfo'
     };
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            history: {
+                movieId: null,
+                startDate: null,
+                endDate: null
+            }
+        };
+    }
     // Image.getSize()
-
-
+    componentDidMount() {
+        this.state.history.movieId = this.props.navigation.state.params.movieId
+        this.state.history.startDate = new Date().getTime();
+    }
+    componentWillUnmount() {
+        this.state.history.endDate = new Date().getTime();
+        Utility.insertHistory(this.state.history).then((res) => {
+            if (res != 'error' && res != null) {
+              console.log('success = ' + res);
+            } else {
+              console.log('insert History failed');
+            }
+          });
+    }
     renderMovieInfo(params) {
         const { posterStyle, containerStyle, container2Style, labelStyle, overviewStyle } = styles;
         return (
@@ -59,7 +81,7 @@ class MovieInfo extends Component {
                         </Button>
                     </Left>
                     <Body>
-                        <Text style={{fontWeight: 'bold'}} numberOfLines={1}>
+                        <Text style={{ fontWeight: 'bold' }} numberOfLines={1}>
                             {params.title}
                         </Text>
                     </Body>
