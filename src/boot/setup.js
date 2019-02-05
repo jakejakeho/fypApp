@@ -10,7 +10,8 @@ export default class Setup extends Component {
   constructor() {
     super();
     this.state = {
-      isReady: false
+      isReady: false,
+      isloggedIn: false
     };
   }
   componentWillMount() {

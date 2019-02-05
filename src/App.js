@@ -95,6 +95,8 @@ import SimpleDeck from "./screens/deckswiper/simple";
 import AdvancedDeck from "./screens/deckswiper/advanced";
 
 import Login from "./screens/login/login";
+import Logout from "./screens/login/logout";
+import Signup from "./screens/login/signup";
 import Home from "./screens/home/";
 import Anatomy from "./screens/anatomy/";
 import Footer from "./screens/footer/";
@@ -127,8 +129,10 @@ import MovieDetail from "./screens/movies/MovieDetail";
 
 const Drawer = DrawerNavigator(
   {
-    Login: {screen: Login},
-    Home: { screen: Home },
+    Login: { screen: Login, navigationOptions: { drawerLockMode: 'locked-closed' } },
+    Logout: { screen: Logout, navigationOptions: { drawerLockMode: 'locked-closed' } },
+    Signup: { screen: Signup, navigationOptions: { drawerLockMode: 'locked-closed' } },
+    MovieList: { screen: MovieList },
     Anatomy: { screen: Anatomy },
     Header: { screen: Header },
     Footer: { screen: Footer },
@@ -166,9 +170,7 @@ const Drawer = DrawerNavigator(
 const AppNavigator = StackNavigator(
   {
     Drawer: { screen: Drawer },
-
-    Login: {screen: Login},
-
+    MovieInfo: { screen: MovieInfo },
     Header1: { screen: Header1 },
     Header2: { screen: Header2 },
     Header3: { screen: Header3 },
@@ -275,9 +277,6 @@ const AppNavigator = StackNavigator(
 
     RegularActionSheet: { screen: RegularActionSheet },
     IconActionSheet: { screen: IconActionSheet },
-
-    MovieList: { screen: MovieList },
-    MovieInfo: { screen: MovieInfo }
   },
   {
     initialRouteName: "Drawer",

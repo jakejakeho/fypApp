@@ -27,7 +27,7 @@ const MovieDetail = ({ movie, navigate }) =>{
             </CardSection>
 
             <CardSection>
-                <Button onPress={() => navigate('MovieInfo', {overview, poster_path})}>
+                <Button onPress={() => navigate('MovieInfo', {title,overview, poster_path})}>
                     More Info
                 </Button>
             </CardSection>

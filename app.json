@@ -2,10 +2,16 @@
   "expo": {
     "sdkVersion": "28.0.0",
     "icon": "./assets/nblogo.png",
-    "slug": "nativebasekitchensink",
+    "slug": "fypApp",
     "loading": {
       "hideExponentText": true,
       "backgroundImage": "./assets/splashscreen.png"
+    },
+    "ios": {
+      "bundleIdentifier": "hk.ust.fypApp"
+    },
+    "android": {
+      "package": "hk.ust.fypApp"
     },
     "orientation": "portrait",
     "primaryColor": "#cccccc",
@@ -21,6 +27,9 @@
     "androidStatusBar": {
       "barStyle": "light-content",
       "backgroundColor": "#334393"
-    }
+    },
+    "name": "fypApp",
+    "version": "2.5.0",
+    "description": ""
   }
 }

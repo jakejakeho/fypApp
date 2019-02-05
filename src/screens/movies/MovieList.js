@@ -1,6 +1,18 @@
 import React, { Component } from 'react';
-import Header from '../Header/Header';
 import { ScrollView, View, Dimensions } from 'react-native';
+import {
+    Container,
+    Header,
+    Left,
+    Button,
+    Body,
+    Title,
+    Icon,
+    Right,
+    Content,
+    ActionSheet,
+    Text
+} from "native-base";
 import MovieDetail from './MovieDetail';
 import Utility from '../../Utility'
 const { height } = Dimensions.get('window');
@@ -9,7 +21,7 @@ export default class MovieList extends Component {
     state = { movies: [], screenHeight: 0 };
 
     componentWillMount() {
-        Utility.getMovieList().then((response) =>{
+        Utility.getMovieList().then((response) => {
             this.setState({ movies: response });
         });
     }
@@ -29,7 +41,20 @@ export default class MovieList extends Component {
         const { navigate } = this.props.navigation;
         return (
             <View style={{ flex: 1 }}>
-                <Header headerText={'Movies'} />
+                <Header>
+                    <Left>
+                        <Button
+                            transparent
+                            onPress={() => this.props.navigation.navigate("DrawerOpen")}
+                        >
+                            <Icon name="ios-menu" />
+                        </Button>
+                    </Left>
+                    <Body>
+                        <Title>Movies</Title>
+                    </Body>
+                    <Right />
+                </Header>
                 <ScrollView scrollEnabled={scrollEnabled}
                     onContentSizeChange={this.onContentSizeChange}>
                     {this.renderMovies(navigate)}
