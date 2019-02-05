@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, Image, FlatList } from 'react-native';
+import { View, Text, ScrollView, Image } from 'react-native';
 import {
     Container,
     Header,
@@ -15,6 +15,7 @@ import {
 import Card from '../card/Card';
 import CardSection from '../card/CardSection';
 import Utility from '../../Utility';
+import { Rating } from 'react-native-ratings';
 
 
 
@@ -48,7 +49,7 @@ class MovieInfo extends Component {
           });
     }
     renderMovieInfo(params) {
-        const { posterStyle, containerStyle, container2Style, labelStyle, overviewStyle } = styles;
+        const { posterStyle, containerStyle, container2Style, labelStyle, overviewStyle, ratingStyle } = styles;
         return (
             <Card>
                 <View style={containerStyle}>
@@ -64,15 +65,30 @@ class MovieInfo extends Component {
                     </View>
                 </CardSection>
 
-
+              
+                <View style={ratingStyle}> 
+                    <Rating type='rocket'
+                    onFinishRating={this.ratingCompleted}
+                    showRating
+                    ratingCount={5}
+                    imageSize={40}
+                    style={{ paddingVertical: 10 }}
+                    />
+                </View>
             </Card>
         );
     }
+
+    ratingCompleted(rating) {
+        console.log(`rating is : ${rating}`);
+        //can save fetch it user history by fetching rating
+    };
 
     render() {
         var { params } = this.props.navigation.state;
 
         return (
+            
             <View style={{ flex: 1 }}>
                 <Header>
                     <Left>
@@ -99,12 +115,13 @@ const styles = {
     containerStyle: {
         justifyContent: 'center',
         paddingLeft: 20,
-        paddingRight: 20
+        paddingRight: 20,
+        borderRadius: 20
     },
     posterStyle: {
         flex: 1,
-        width: null,
-        height: 550 //will be modife
+        aspectRatio: 1.25,
+        resizeMode: 'contain'
     },
     container2Style: {
         flex: 1,
@@ -121,6 +138,13 @@ const styles = {
         fontSize: 14,
         paddingLeft: 18,
         paddingRight: 5
+    },
+    ratingStyle: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        paddingTop: 5,
+        borderRadius: 10
     }
 };
 

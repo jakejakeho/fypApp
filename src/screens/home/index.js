@@ -40,7 +40,7 @@ class Home extends Component {
             <Button
               style={{ backgroundColor: "#6FAF98", alignSelf: "center" }}
               onPress={() => {
-                this.props.navigation.navigate("MovieList");
+                this.props.navigation.navigate("login");
               }
               }
             >

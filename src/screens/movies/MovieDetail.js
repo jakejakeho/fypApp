@@ -1,45 +1,41 @@
-import React , { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import React , { Component, propTypes } from 'react';
+import { Text, View, Image, TouchableOpacity, Dimensions } from 'react-native';
 import Card from '../card/Card';
 import CardSection from '../card/CardSection';
 import Button from '../button/Button';
 
-const MovieDetail = ({ movie, navigate }) =>{
-  
+const { width, height } = Dimensions.get('window');
+const cols = 2, rows = 2;
 
-    const { containerStyle, headerContentStyle, titleTextStyle,genresTextStyle, posterStyle } = styles;
-    const { _id, movieId, title, genres, poster_path, overview } = movie;
+class MovieDetail extends Component {
+    render() {
+        const { _id, movieId, title, genres, poster_path, overview } = this.props.movie;
+
+        const { imageContainerStyle, titleTextStyle,genresTextStyle, posterStyle } = styles;
     
-    return (
+     return (
 
-        <Card>
-            <CardSection>
-                <View style={containerStyle}>
-                    <View style={headerContentStyle}>
-                        <Text style={titleTextStyle}>{title}</Text>
-                        <Text style={genresTextStyle}>{genres}</Text>
-                    </View>
-                </View>
-            </CardSection>
-            
-            <CardSection>
-                <Image style={posterStyle} source={{ uri: poster_path }}/>
-            </CardSection>
-
-            <CardSection>
-                <Button onPress={() => navigate('MovieInfo', {movieId, title,overview, poster_path})}>
-                    More Info
-                </Button>
-            </CardSection>
-        </Card>
+        <TouchableOpacity style={styles.container} onPress={() => this.props.navigate('MovieInfo', {movieId, title,overview, poster_path})}>
+            <View style={imageContainerStyle}>
+                <Image source={{uri: poster_path}} style={posterStyle}/>
+            </View>
+            <Text style={titleTextStyle} numberOfLines={1}>{title}</Text>
+            <Text style={genresTextStyle} numberOfLines={1}>
+            {genres}
+            </Text>
+        </TouchableOpacity>
     );
+}
 };
 const styles ={
-    containerStyle: {
-        justifyContent: 'center',
-        alignItems: 'center',
+    container:{
         marginLeft: 10,
-        marginRight: 10
+        marginBottom: 10,
+        height: (height - 20 - 20) / rows - 10,
+        width: (width - 10) / cols - 10,
+    },
+    imageContainerStyle: {
+        flex: 1
     },
     headerContentStyle: {
         flexDirection: 'column',
@@ -47,16 +43,20 @@ const styles ={
     },
     titleTextStyle: {
         fontSize: 18,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontStyle: 'italic'
     },
     genresTextStyle:{
-        fontSize: 12
+        fontSize: 12,
+        color: 'grey'
     },
     posterStyle:{
-        flex: 1,
-        height: 250,
-        width: null,
-        borderRadius: 10,
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        borderRadius: 20
     }
 };
 export default MovieDetail;

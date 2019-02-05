@@ -56,7 +56,8 @@ export default class MovieHistoryList extends Component {
                     <Right />
                 </Header>
                 <ScrollView scrollEnabled={scrollEnabled}
-                    onContentSizeChange={this.onContentSizeChange}>
+                    onContentSizeChange={this.onContentSizeChange}
+                    >
                     {this.renderMovies(navigate)}
                 </ScrollView>
             </View>

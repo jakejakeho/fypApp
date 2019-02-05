@@ -138,7 +138,7 @@ export default class Utility {
         let token = await Utility.getToken();
         console.log("getMoive = " + token);
         try {
-            let response = await fetch('http://fypbackend.mooo.com/users/recommend', {
+            let response = await fetch('http://fypbackend.mooo.com/movies', {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token,
