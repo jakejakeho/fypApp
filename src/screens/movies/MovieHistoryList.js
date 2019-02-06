@@ -31,6 +31,7 @@ export default class MovieHistoryList extends Component {
         );
     }
 
+
     onContentSizeChange = (contentWidth, contentHeight) => {
         this.setState({ screenHeight: contentHeight });
     };
@@ -56,12 +57,20 @@ export default class MovieHistoryList extends Component {
                     <Right />
                 </Header>
                 <ScrollView scrollEnabled={scrollEnabled}
+                contentContainerStyle={styles.scrollViewStyle}
                     onContentSizeChange={this.onContentSizeChange}>
                     {this.renderMovies(navigate)}
                 </ScrollView>
             </View>
 
         );
+    }
+}
+const styles = {
+    scrollViewStyle: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        paddingTop: 5
     }
 }
 

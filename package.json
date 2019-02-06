@@ -43,6 +43,7 @@
     "react-native-drawer-layout": "^2.0.0",
     "react-native-elements": "0.19.1",
     "react-native-image-crop-picker": "^0.22.0",
+    "react-native-ratings": "^6.3.0",
     "react-navigation": "1.6.1"
   }
 }
