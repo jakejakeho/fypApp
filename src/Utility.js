@@ -91,8 +91,8 @@ export default class Utility {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                  },
-                  body: formdata
+                },
+                body: formdata
             });
             let responseJson = await response.json();
             console.log(responseJson);
@@ -115,11 +115,39 @@ export default class Utility {
                 headers: {
                     'Authorization': 'Bearer ' + token,
                     'Content-Type': 'application/x-www-form-urlencoded',
-                  },
-                  body: Utility.parseBody({
+                },
+                body: Utility.parseBody({
                     'movieId': history.movieId,
                     'startDate': history.startDate,
                     'endDate': history.endDate
+                })
+            });
+            let responseJson = await response.json();
+            console.log(responseJson);
+            if (responseJson.code == null) {
+                return 'success';
+            } else {
+                return 'error';
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    static async insertRating(rating) {
+        let token = await Utility.getToken();
+        try {
+            console.log("inserting rating");
+            let response = await fetch('https://fypbackend.mooo.com/users/rating', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: Utility.parseBody({
+                    'movieId': rating.movieId,
+                    'rating': rating.rating,
+                    'date': rating.date
                 })
             });
             let responseJson = await response.json();
