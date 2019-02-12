@@ -114,7 +114,7 @@ class MovieInfo extends Component {
                         </Button>
                     </Left>
                     <Body>
-                        <Text style={{ fontWeight: 'bold' }} numberOfLines={1}>
+                        <Text style={{ fontWeight: 'bold' }}>
                             {params.title}
                         </Text>
                     </Body>
