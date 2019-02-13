@@ -60,8 +60,19 @@ class MovieInfo extends Component {
     }
     renderMovieInfo(params) {
         const { container, posterStyle, containerStyle, container2Style, labelStyle, overviewStyle, ratingStyle } = styles;
+        
         return (
+            
             <Card>
+                <WebView
+                        style={{ flex: 1,
+                            aspectRatio: 1,
+                            resizeMode: 'contain'}}
+                        javaScriptEnabled={true}
+                        source={{
+                            uri: 'https://www.youtube.com/embed/{params.trailerId}?rel=0&autoplay=1&showinfo=0&controls=1',
+                        }}
+                    />
                 <View style={containerStyle}>
                     <Image style={posterStyle} source={{ uri: params.poster_path }} />
                 </View>
@@ -85,15 +96,9 @@ class MovieInfo extends Component {
                         style={{ paddingVertical: 10 }}
                     />
                 </View>
-                <View style={ratingStyle}>
-                    <WebView
-                        style={{ paddingVertical: 10 }}
-                        javaScriptEnabled={true}
-                        source={{
-                            uri: 'https://www.youtube.com/embed/ZZ5LpwO-An4?rel=0&autoplay=0&showinfo=0&controls=0',
-                        }}
-                    />
-                </View>
+                
+                    
+                
             </Card>
         );
     }
@@ -141,9 +146,7 @@ class MovieInfo extends Component {
 const styles = {
     container: {
         flex: 1,
-        alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#ecf0f1',
     },
     containerStyle: {
         justifyContent: 'center',
