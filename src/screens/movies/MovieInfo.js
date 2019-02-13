@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, Image } from 'react-native';
+import { View, Text, ScrollView, Image, WebView } from 'react-native';
+import { Constants } from 'expo';
 import {
     Container,
     Header,
@@ -42,11 +43,11 @@ class MovieInfo extends Component {
     componentDidMount() {
         this.state.history.movieId = this.props.navigation.state.params.movieId;
         this.state.rating.movieId = this.props.navigation.state.params.movieId;
-        this.state.history.startDate = new Date().getTime()/1000;
-        this.state.rating.date = new Date().getTime()/1000;
+        this.state.history.startDate = new Date().getTime() / 1000;
+        this.state.rating.date = new Date().getTime() / 1000;
     }
     componentWillUnmount() {
-        this.state.history.endDate = new Date().getTime()/1000;
+        this.state.history.endDate = new Date().getTime() / 1000;
         Utility.insertHistory(this.state.history).then((res) => {
             if (res != 'error' && res != null) {
                 console.log('success = ' + res);
@@ -58,7 +59,7 @@ class MovieInfo extends Component {
 
     }
     renderMovieInfo(params) {
-        const { posterStyle, containerStyle, container2Style, labelStyle, overviewStyle, ratingStyle } = styles;
+        const { container, posterStyle, containerStyle, container2Style, labelStyle, overviewStyle, ratingStyle } = styles;
         return (
             <Card>
                 <View style={containerStyle}>
@@ -82,6 +83,15 @@ class MovieInfo extends Component {
                         ratingCount={5}
                         imageSize={40}
                         style={{ paddingVertical: 10 }}
+                    />
+                </View>
+                <View style={ratingStyle}>
+                    <WebView
+                        style={{ paddingVertical: 10 }}
+                        javaScriptEnabled={true}
+                        source={{
+                            uri: 'https://www.youtube.com/embed/ZZ5LpwO-An4?rel=0&autoplay=0&showinfo=0&controls=0',
+                        }}
                     />
                 </View>
             </Card>
@@ -129,6 +139,12 @@ class MovieInfo extends Component {
     }
 }
 const styles = {
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#ecf0f1',
+    },
     containerStyle: {
         justifyContent: 'center',
         paddingLeft: 20,
