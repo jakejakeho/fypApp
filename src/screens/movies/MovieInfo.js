@@ -70,7 +70,7 @@ class MovieInfo extends Component {
                             resizeMode: 'contain'}}
                         javaScriptEnabled={true}
                         source={{
-                            uri: 'https://www.youtube.com/embed/{params.trailerId}?rel=0&autoplay=1&showinfo=0&controls=1',
+                            uri: 'https://www.youtube.com/embed/' +  params.trailerId + '?rel=0&autoplay=1&showinfo=0&controls=1',
                         }}
                     />
                 <View style={containerStyle}>
