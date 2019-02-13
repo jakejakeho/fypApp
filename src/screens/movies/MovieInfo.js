@@ -66,8 +66,7 @@ class MovieInfo extends Component {
             <Card>
                 <WebView
                         style={{ flex: 1,
-                            aspectRatio: 1,
-                            resizeMode: 'contain'}}
+                            aspectRatio: 1}}
                         javaScriptEnabled={true}
                         source={{
                             uri: 'https://www.youtube.com/embed/' +  params.trailerId + '?rel=0&autoplay=1&showinfo=0&controls=1',
