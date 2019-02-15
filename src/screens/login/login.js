@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 
 import styles from "./style";
-import test from"../../../assets/logo.png"
-import { Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView } from 'react-native';
+import test from "../../../assets/logo.png"
+import { Keyboard, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView } from 'react-native';
+import { Text } from 'native-base';
 import { Button } from 'react-native-elements';
 import Utility from '../../Utility'
 const appId = "1047121222092614"

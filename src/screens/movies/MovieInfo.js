@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, Image } from 'react-native';
+import { View, Text, ScrollView, Image, WebView } from 'react-native';
+import { Constants } from 'expo';
 import {
     Container,
     Header,
@@ -30,31 +31,54 @@ class MovieInfo extends Component {
                 movieId: null,
                 startDate: null,
                 endDate: null
-            }
+            },
+            rating: {
+                movieId: null,
+                rating: null,
+                date: null,
+            },
         };
     }
     // Image.getSize()
     componentDidMount() {
-        this.state.history.movieId = this.props.navigation.state.params.movieId
-        this.state.history.startDate = new Date().getTime();
+        this.state.history.movieId = this.props.navigation.state.params.movieId;
+        this.state.rating.movieId = this.props.navigation.state.params.movieId;
+        this.state.history.startDate = new Date().getTime() / 1000;
+        this.state.rating.date = new Date().getTime() / 1000;
     }
     componentWillUnmount() {
-        this.state.history.endDate = new Date().getTime();
+        this.state.history.endDate = new Date().getTime() / 1000;
         Utility.insertHistory(this.state.history).then((res) => {
             if (res != 'error' && res != null) {
-              console.log('success = ' + res);
+                console.log('success = ' + res);
             } else {
-              console.log('insert History failed');
+                console.log('insert History failed');
             }
-          });
+        });
+
+
     }
     renderMovieInfo(params) {
-        const { posterStyle, containerStyle, container2Style, labelStyle, overviewStyle, ratingStyle } = styles;
+        const { container, posterStyle, containerStyle, container2Style, labelStyle, overviewStyle, ratingStyle } = styles;
+
         return (
+
             <Card>
                 <View style={containerStyle}>
                     <Image style={posterStyle} source={{ uri: params.poster_path }} />
                 </View>
+
+                <WebView
+                    style={{
+                        flex: 1,
+                        aspectRatio: 1.77,
+                        paddingTop: 5,
+                    }}
+                    javaScriptEnabled={true}
+                    source={{
+                        uri: 'https://www.youtube.com/embed/' + params.trailerId + '?rel=0&autoplay=1&showinfo=0&controls=1',
+                    }}
+                />
 
                 <CardSection>
                     <View style={container2Style}>
@@ -65,16 +89,19 @@ class MovieInfo extends Component {
                     </View>
                 </CardSection>
 
-              
-                <View style={ratingStyle}> 
+
+                <View style={ratingStyle}>
                     <Rating type='rocket'
-                    onFinishRating={this.ratingCompleted}
-                    showRating
-                    ratingCount={5}
-                    imageSize={40}
-                    style={{ paddingVertical: 10 }}
+                        onFinishRating={this.ratingCompleted.bind(this)}
+                        showRating
+                        ratingCount={5}
+                        imageSize={40}
+                        style={{ paddingVertical: 10 }}
                     />
                 </View>
+
+
+
             </Card>
         );
     }
@@ -82,13 +109,21 @@ class MovieInfo extends Component {
     ratingCompleted(rating) {
         console.log(`rating is : ${rating}`);
         //can save fetch it user history by fetching rating
+        this.state.rating.rating = rating;
+        Utility.insertRating(this.state.rating).then((res) => {
+            if (res != 'error' && res != null) {
+                console.log('success = ' + res);
+            } else {
+                console.log('insert rating failed');
+            }
+        });
     };
 
     render() {
         var { params } = this.props.navigation.state;
 
         return (
-            
+
             <View style={{ flex: 1 }}>
                 <Header>
                     <Left>
@@ -97,7 +132,7 @@ class MovieInfo extends Component {
                         </Button>
                     </Left>
                     <Body>
-                        <Text style={{ fontWeight: 'bold' }} numberOfLines={1}>
+                        <Text style={{ fontWeight: 'bold' }}>
                             {params.title}
                         </Text>
                     </Body>
@@ -112,6 +147,10 @@ class MovieInfo extends Component {
     }
 }
 const styles = {
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+    },
     containerStyle: {
         justifyContent: 'center',
         paddingLeft: 20,

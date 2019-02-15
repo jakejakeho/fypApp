@@ -1,4 +1,4 @@
-import React , { Component, propTypes } from 'react';
+import React, { Component, propTypes } from 'react';
 import { Text, View, Image, TouchableOpacity, Dimensions } from 'react-native';
 import Card from '../card/Card';
 import CardSection from '../card/CardSection';
@@ -9,26 +9,26 @@ const cols = 2, rows = 2;
 
 class MovieDetail extends Component {
     render() {
-        const { _id, movieId, title, genres, poster_path, overview } = this.props.movie;
+        const { _id, movieId, title, genres, poster_path, overview, trailerId } = this.props.movie;
 
-        const { imageContainerStyle, titleTextStyle,genresTextStyle, posterStyle } = styles;
-    
-     return (
+        const { imageContainerStyle, titleTextStyle, genresTextStyle, posterStyle } = styles;
 
-        <TouchableOpacity style={styles.container} onPress={() => this.props.navigate('MovieInfo', {movieId, title,overview, poster_path})}>
-            <View style={imageContainerStyle}>
-                <Image source={{uri: poster_path}} style={posterStyle}/>
-            </View>
-            <Text style={titleTextStyle} numberOfLines={1}>{title}</Text>
-            <Text style={genresTextStyle} numberOfLines={1}>
-            {genres}
-            </Text>
-        </TouchableOpacity>
-    );
-}
+        return (
+
+            <TouchableOpacity style={styles.container} onPress={() => this.props.navigate('MovieInfo', { movieId, title, overview, poster_path, trailerId })}>
+                <View style={imageContainerStyle}>
+                    <Image source={{ uri: poster_path }} style={posterStyle} />
+                </View>
+                <Text style={titleTextStyle} numberOfLines={1}>{title}</Text>
+                <Text style={genresTextStyle} numberOfLines={1}>
+                    {genres}
+                </Text>
+            </TouchableOpacity>
+        );
+    }
 };
-const styles ={
-    container:{
+const styles = {
+    container: {
         marginLeft: 10,
         marginBottom: 10,
         height: (height - 20 - 20) / rows - 10,
@@ -46,11 +46,11 @@ const styles ={
         fontWeight: 'bold',
         fontStyle: 'italic'
     },
-    genresTextStyle:{
+    genresTextStyle: {
         fontSize: 12,
         color: 'grey'
     },
-    posterStyle:{
+    posterStyle: {
         position: 'absolute',
         top: 0,
         right: 0,
