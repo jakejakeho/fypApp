@@ -60,21 +60,25 @@ class MovieInfo extends Component {
     }
     renderMovieInfo(params) {
         const { container, posterStyle, containerStyle, container2Style, labelStyle, overviewStyle, ratingStyle } = styles;
-        
+
         return (
-            
+
             <Card>
-                <WebView
-                        style={{ flex: 1,
-                            aspectRatio: 1.77}}
-                        javaScriptEnabled={true}
-                        source={{
-                            uri: 'https://www.youtube.com/embed/' +  params.trailerId + '?rel=0&autoplay=1&showinfo=0&controls=1',
-                        }}
-                    />
                 <View style={containerStyle}>
                     <Image style={posterStyle} source={{ uri: params.poster_path }} />
                 </View>
+
+                <WebView
+                    style={{
+                        flex: 1,
+                        aspectRatio: 1.77,
+                        paddingTop: 5,
+                    }}
+                    javaScriptEnabled={true}
+                    source={{
+                        uri: 'https://www.youtube.com/embed/' + params.trailerId + '?rel=0&autoplay=1&showinfo=0&controls=1',
+                    }}
+                />
 
                 <CardSection>
                     <View style={container2Style}>
@@ -95,9 +99,9 @@ class MovieInfo extends Component {
                         style={{ paddingVertical: 10 }}
                     />
                 </View>
-                
-                    
-                
+
+
+
             </Card>
         );
     }
