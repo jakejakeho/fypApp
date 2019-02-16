@@ -16,7 +16,7 @@ import {
 import Card from '../card/Card';
 import CardSection from '../card/CardSection';
 import Utility from '../../Utility';
-import { Rating } from 'react-native-ratings';
+import { Rating, AirbnbRating } from 'react-native-ratings';
 
 
 
@@ -91,9 +91,12 @@ class MovieInfo extends Component {
 
 
                 <View style={ratingStyle}>
-                    <Rating type='rocket'
+                    <View>
+                        <Text>Rate it!</Text>
+                    </View>
+                    <AirbnbRating type='rocket'
                         onFinishRating={this.ratingCompleted.bind(this)}
-                        showRating
+                        showRating={false}
                         ratingCount={5}
                         imageSize={40}
                         style={{ paddingVertical: 10 }}

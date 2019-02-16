@@ -62,10 +62,10 @@ export default class SignUpScreen extends Component {
                         {!image && <Button block primary style={styles.mb15} onPress={this._pickImage}>
                             <Text>Pick an image from camera roll</Text>
                         </Button>}
-                        <TextInput placeholder="Username" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={(username) => this.setState({ username })} value={this.state.username} />
-                        <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={(password) => this.setState({ password })} value={this.state.password} secureTextEntry={true} />
-                        <TextInput placeholder="Name" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={(name) => this.setState({ name })} value={this.state.name} />
-                        <TextInput placeholder="Email" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={(email) => this.setState({ email })} value={this.state.email} />
+                        <TextInput autoCapitalize = 'none' placeholder="Username" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={(username) => this.setState({ username })} value={this.state.username} />
+                        <TextInput autoCapitalize = 'none' placeholder="Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={(password) => this.setState({ password })} value={this.state.password} secureTextEntry={true} />
+                        <TextInput autoCapitalize = 'characters' placeholder="Name" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={(name) => this.setState({ name })} value={this.state.name} />
+                        <TextInput autoCapitalize = 'none' placeholder="Email" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={(email) => this.setState({ email })} value={this.state.email} />
 
                         <Button block primary style={styles.mb15} onPress={() => this.onSignUp()}>
                             <Text>Sign Up</Text>
