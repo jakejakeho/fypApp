@@ -24,8 +24,8 @@ export default class LoginScreen extends Component {
           <View style={styles.loginScreenContainer}>
             <View style={styles.loginFormView}>
               <Text style={styles.logoText}>Awesome FYP</Text>
-              <TextInput placeholder="Username" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={(username) => this.setState({ username })} value={this.state.username} />
-              <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={(password) => this.setState({ password })} value={this.state.password} secureTextEntry={true} />
+              <TextInput autoCapitalize = 'none' placeholder="Username" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={(username) => this.setState({ username })} value={this.state.username} />
+              <TextInput autoCapitalize = 'none' placeholder="Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={(password) => this.setState({ password })} value={this.state.password} secureTextEntry={true} />
               <Button
                 buttonStyle={styles.loginButton}
                 onPress={() => this.onLoginPress()}
