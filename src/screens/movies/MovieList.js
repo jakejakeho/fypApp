@@ -15,11 +15,11 @@ import {
 } from "native-base";
 import MovieDetail from './MovieDetail';
 import Utility from '../../Utility'
-var ScrollableTabView = require('react-native-scrollable-tab-view');
+import ScrollableTabView, { DefaultTabBar, ScrollableTabBar } from 'react-native-scrollable-tab-view';
 const { height } = Dimensions.get('window');
 
 export default class MovieList extends Component {
-    state = { movies: [], screenHeight: 0 };
+    state = { movies: [], screenHeight: 0, };
 
     componentWillMount() {
         Utility.getMovieList().then((response) => {
@@ -57,12 +57,74 @@ export default class MovieList extends Component {
                     </Body>
                     <Right />
                 </Header>
+                <ScrollableTabView
+                    renderTabBar={() => <ScrollableTabBar />}
+                    onChangeTab={(info) => {
+                        console.log(info.i)
+                        if (info.i == 0) {
+                            Utility.getMovieHistoryList().then((response) => {
+                                this.setState({ movies: response });
+                            });
+                        } else {
+                            Utility.getMovieList().then((response) => {
+                                this.setState({ movies: response });
+                            });
+                        }
 
-                <ScrollView scrollEnabled={scrollEnabled}
-                    contentContainerStyle={styles.scrollViewStyle}
-                    onContentSizeChange={this.onContentSizeChange}>
-                    {this.renderMovies(navigate)}
-                </ScrollView>
+                    }}>
+                    <ScrollView tabLabel='one' scrollEnabled={scrollEnabled}
+                        contentContainerStyle={styles.scrollViewStyle}
+                        onContentSizeChange={this.onContentSizeChange}>
+                        {this.renderMovies(navigate)}
+                    </ScrollView>
+                    <ScrollView tabLabel='two' scrollEnabled={scrollEnabled}
+                        contentContainerStyle={styles.scrollViewStyle}
+                        onContentSizeChange={this.onContentSizeChange}>
+                        {this.renderMovies(navigate)}
+                    </ScrollView>
+                    <ScrollView tabLabel='three' scrollEnabled={scrollEnabled}
+                        contentContainerStyle={styles.scrollViewStyle}
+                        onContentSizeChange={this.onContentSizeChange}>
+                        {this.renderMovies(navigate)}
+                    </ScrollView>
+                    <ScrollView tabLabel='four' scrollEnabled={scrollEnabled}
+                        contentContainerStyle={styles.scrollViewStyle}
+                        onContentSizeChange={this.onContentSizeChange}>
+                        {this.renderMovies(navigate)}
+                    </ScrollView>
+                    <ScrollView tabLabel='five' scrollEnabled={scrollEnabled}
+                        contentContainerStyle={styles.scrollViewStyle}
+                        onContentSizeChange={this.onContentSizeChange}>
+                        {this.renderMovies(navigate)}
+                    </ScrollView>
+                    <ScrollView tabLabel='sixth' scrollEnabled={scrollEnabled}
+                        contentContainerStyle={styles.scrollViewStyle}
+                        onContentSizeChange={this.onContentSizeChange}>
+                        {this.renderMovies(navigate)}
+                    </ScrollView>
+                    <ScrollView tabLabel='seventh' scrollEnabled={scrollEnabled}
+                        contentContainerStyle={styles.scrollViewStyle}
+                        onContentSizeChange={this.onContentSizeChange}>
+                        {this.renderMovies(navigate)}
+                    </ScrollView>
+                    <ScrollView tabLabel='eighth' scrollEnabled={scrollEnabled}
+                        contentContainerStyle={styles.scrollViewStyle}
+                        onContentSizeChange={this.onContentSizeChange}>
+                        {this.renderMovies(navigate)}
+                    </ScrollView>
+                    <ScrollView tabLabel='nineth' scrollEnabled={scrollEnabled}
+                        contentContainerStyle={styles.scrollViewStyle}
+                        onContentSizeChange={this.onContentSizeChange}>
+                        {this.renderMovies(navigate)}
+                    </ScrollView>
+                    <ScrollView tabLabel='tenth' scrollEnabled={scrollEnabled}
+                        contentContainerStyle={styles.scrollViewStyle}
+                        onContentSizeChange={this.onContentSizeChange}>
+                        {this.renderMovies(navigate)}
+                    </ScrollView>
+                </ScrollableTabView>
+
+
             </View>
 
         );
