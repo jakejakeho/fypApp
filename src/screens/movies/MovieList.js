@@ -15,6 +15,7 @@ import {
 } from "native-base";
 import MovieDetail from './MovieDetail';
 import Utility from '../../Utility'
+var ScrollableTabView = require('react-native-scrollable-tab-view');
 const { height } = Dimensions.get('window');
 
 export default class MovieList extends Component {
@@ -56,8 +57,9 @@ export default class MovieList extends Component {
                     </Body>
                     <Right />
                 </Header>
+
                 <ScrollView scrollEnabled={scrollEnabled}
-                contentContainerStyle={styles.scrollViewStyle}
+                    contentContainerStyle={styles.scrollViewStyle}
                     onContentSizeChange={this.onContentSizeChange}>
                     {this.renderMovies(navigate)}
                 </ScrollView>
