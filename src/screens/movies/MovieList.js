@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Dimensions } from 'react-native';
 import {
     Header,
     Left,
@@ -26,6 +26,8 @@ export default class MovieList extends Component {
         refreshing: false,
         movies: [],
         screenHeight: 0,
+        isLoadingMore: false,
+        isLastData: false,
     };
 
     componentWillMount() {
@@ -38,7 +40,8 @@ export default class MovieList extends Component {
         console.log("getting " + genres + " page " + page);
         Utility.getMovieList(genres, page).then((response) => {
             this.setState({
-                data: page === 1 ? response : [...this.state.data, ...response],
+                isLastData: response.length > 0 ? false : true,
+                data: page === 0 ? response : [...this.state.data, ...response],
                 loading: false,
                 refreshing: false
             });
@@ -66,8 +69,9 @@ export default class MovieList extends Component {
     }
 
     handleRefresh = () => {
+        console.log("handleRefresh");
         this.setState({
-            page: 1,
+            page: 0,
             refreshing: true,
             data: [],
         }, () => {
@@ -76,12 +80,16 @@ export default class MovieList extends Component {
     }
 
     handleLoadMore = () => {
-        this.setState({
-            page: this.state.page + 1,
-            refreshing: true,
-        }, () => {
-            this.makeRemoteRequest();
-        });
+        console.log("handleLoadMore");
+        if (!this.state.isLastData) {
+            this.setState({
+                isLoadingMore: true,
+                page: this.state.page + 1,
+                refreshing: true,
+            }, () => {
+                this.makeRemoteRequest();
+            });
+        }
     }
 
     _renderGenres() {
@@ -125,7 +133,7 @@ export default class MovieList extends Component {
                 <FlatList
                     tabLabel='All'
                     data={this.state.data}
-                    renderItem={this._renderMovies}
+                    renderItem={this._renderMovies.bind(this)}
                     numColumns={2}
                     keyExtractor={item => item._id}
                     ListHeaderComponent={this._headerTabView()}
