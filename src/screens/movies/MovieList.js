@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Dimensions } from 'react-native';
+import { View, FlatList, Dimensions } from 'react-native';
 import {
-    Container,
     Header,
     Left,
     Button,
@@ -9,37 +8,112 @@ import {
     Title,
     Icon,
     Right,
-    Content,
-    ActionSheet,
     Text
 } from "native-base";
 import MovieDetail from './MovieDetail';
 import Utility from '../../Utility'
-const { height } = Dimensions.get('window');
+import ScrollableTabView, { DefaultTabBar, ScrollableTabBar } from 'react-native-scrollable-tab-view'
 
+
+const genres = ['All', 'Action', 'Animation', 'Children', 'Comedy', 'Fantasy', 'Sci-Fi', 'Horror', 'Fantasy', 'Romance']
 export default class MovieList extends Component {
-    state = { movies: [], screenHeight: 0 };
+    state = {
+        loading: false,
+        refreshing: false,
+        data: [],
+        genres: "",
+        page: 0,
+        refreshing: false,
+        movies: [],
+        screenHeight: 0,
+        isLoadingMore: false,
+        isLastData: false,
+    };
 
     componentWillMount() {
-        Utility.getMovieList().then((response) => {
-            this.setState({ movies: response });
+        this.makeRemoteRequest();
+
+    }
+
+    makeRemoteRequest = () => {
+        const { genres, page } = this.state;
+        console.log("getting " + genres + " page " + page);
+        Utility.getMovieList(genres, page).then((response) => {
+            this.setState({
+                isLastData: response.length > 0 ? false : true,
+                data: page === 0 ? response : [...this.state.data, ...response],
+                loading: false,
+                refreshing: false
+            });
         });
     }
-    renderMovies(navigate) {
-        return this.state.movies.map(movie =>
-            <MovieDetail key={movie.title} movie={movie} navigate={navigate} />
+
+    _renderMovies = ({ item, index }) => {
+        return <MovieDetail key={index} movie={item} navigate={this.props.navigation} />;
+    }
+
+    renderFooter = () => {
+        if (!this.state.loading) return null;
+
+        return (
+            <View
+                style={{
+                    paddingVertical: 20,
+                    borderTopWidth: 1,
+                    borderColor: "#CED0CE"
+                }}
+            >
+                <ActivityIndicator animating size="large" />
+            </View>
         );
     }
 
+    handleRefresh = () => {
+        console.log("handleRefresh");
+        this.setState({
+            page: 0,
+            refreshing: true,
+            data: [],
+        }, () => {
+            this.makeRemoteRequest();
+        });
+    }
 
-    onContentSizeChange = (contentWidth, contentHeight) => {
-        this.setState({ screenHeight: contentHeight });
-    };
+    handleLoadMore = () => {
+        console.log("handleLoadMore");
+        if (!this.state.isLastData) {
+            this.setState({
+                isLoadingMore: true,
+                page: this.state.page + 1,
+                refreshing: true,
+            }, () => {
+                this.makeRemoteRequest();
+            });
+        }
+    }
+
+    _renderGenres() {
+        return genres.map((genres, i) => <Text key={i} tabLabel={genres} />);
+    }
+
+    /*tabType*/
+    _headerTabView() {
+        return (
+            <ScrollableTabView
+                initialPage={0}
+                renderTabBar={() => <ScrollableTabBar />}
+                onChangeTab={(obj) => {
+                    var tmpGener = "";
+                    obj.i === 0 ? tmpGener = "" : tmpGener = genres[obj.i];
+                    this.setState({ genres: tmpGener }, () => { this.handleRefresh() });
+                }}
+            >
+                {this._renderGenres()}
+            </ScrollableTabView>
+        )
+    }
 
     render() {
-        const scrollEnabled = this.state.screenHeight > height;
-
-        const { navigate } = this.props.navigation;
         return (
             <View style={{ flex: 1 }}>
                 <Header>
@@ -56,23 +130,21 @@ export default class MovieList extends Component {
                     </Body>
                     <Right />
                 </Header>
-                <ScrollView scrollEnabled={scrollEnabled}
-                contentContainerStyle={styles.scrollViewStyle}
-                    onContentSizeChange={this.onContentSizeChange}>
-                    {this.renderMovies(navigate)}
-                </ScrollView>
-            </View>
-
+                <FlatList
+                    tabLabel='All'
+                    data={this.state.data}
+                    renderItem={this._renderMovies.bind(this)}
+                    numColumns={2}
+                    keyExtractor={item => item._id}
+                    ListHeaderComponent={this._headerTabView()}
+                    ListFooterComponent={this.renderFooter}
+                    refreshing={this.state.refreshing}
+                    onRefresh={this.handleRefresh}
+                    onEndReached={this.handleLoadMore}
+                    onEndReachedThreshold={0}
+                />
+            </View >
         );
     }
 }
-const styles = {
-    scrollViewStyle: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        paddingTop: 5
-    }
-}
-
-
 

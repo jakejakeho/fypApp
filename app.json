@@ -30,6 +30,10 @@
     },
     "name": "fypApp",
     "version": "2.5.0",
-    "description": ""
+    "description": "",
+    "platforms": [
+      "android",
+      "ios"
+    ]
   }
 }
