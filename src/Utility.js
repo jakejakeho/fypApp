@@ -162,16 +162,20 @@ export default class Utility {
         }
     }
 
-    static async getMovieList() {
+    static async getMovieList(generes, page) {
         let token = await Utility.getToken();
         console.log("getMoive = " + token);
         try {
             let response = await fetch('http://fypbackend.mooo.com/movies', {
-                method: 'GET',
+                method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token,
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
+                body: Utility.parseBody({
+                    'generes': generes,
+                    'page': page,
+                })
             });
             let responseJson = await response.json();
             if (responseJson.code == null) {

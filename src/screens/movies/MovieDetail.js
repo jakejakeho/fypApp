@@ -12,7 +12,6 @@ class MovieDetail extends Component {
         const { _id, movieId, title, genres, poster_path, overview, trailerId } = this.props.movie;
 
         const { imageContainerStyle, titleTextStyle, genresTextStyle, posterStyle } = styles;
-
         return (
 
             <TouchableOpacity style={styles.container} onPress={() => this.props.navigate('MovieInfo', { movieId, title, overview, poster_path, trailerId })}>
