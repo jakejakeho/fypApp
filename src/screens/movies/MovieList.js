@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, FlatList } from 'react-native';
 import {
-    Container,
     Header,
     Left,
     Button,
@@ -9,8 +8,6 @@ import {
     Title,
     Icon,
     Right,
-    Content,
-    ActionSheet,
     Text
 } from "native-base";
 import MovieDetail from './MovieDetail';
@@ -18,37 +15,38 @@ import Utility from '../../Utility'
 import ScrollableTabView, { DefaultTabBar, ScrollableTabBar } from 'react-native-scrollable-tab-view'
 
 
-const geners = ['All', 'Action', 'Animation', 'Children', 'Comedy', 'tiyu', 'junshi', 'keji', 'caijing', 'shishang']
+const genres = ['All', 'Action', 'Animation', 'Children', 'Comedy', 'Fantasy', 'Sci-Fi', 'Horror', 'Fantasy', 'Romance']
 export default class MovieList extends Component {
     state = {
         loading: false,
         refreshing: false,
         data: [],
-        generes: "Adventure",
+        genres: "",
         page: 1,
         refreshing: false,
         movies: [],
         screenHeight: 0,
     };
 
-
-
     componentWillMount() {
         this.makeRemoteRequest();
 
     }
+
     makeRemoteRequest = () => {
-        const { generes, page } = this.state;
-        Utility.getMovieList(generes, page).then((response) => {
+        const { genres, page } = this.state;
+        console.log("getting " + genres + " page " + page);
+        Utility.getMovieList(genres, page).then((response) => {
             this.setState({
                 data: page === 1 ? response : [...this.state.data, ...response],
                 loading: false,
                 refreshing: false
             });
         });
-    };
+    }
+
     _renderMovies = ({ item, index }) => {
-        return <MovieDetail key={item.title} movie={item} navigate={this.props.navigation} />;
+        return <MovieDetail key={index} movie={item} navigate={this.props.navigation} />;
     }
 
     renderFooter = () => {
@@ -65,12 +63,13 @@ export default class MovieList extends Component {
                 <ActivityIndicator animating size="large" />
             </View>
         );
-    };
+    }
 
     handleRefresh = () => {
         this.setState({
             page: 1,
             refreshing: true,
+            data: [],
         }, () => {
             this.makeRemoteRequest();
         });
@@ -85,8 +84,8 @@ export default class MovieList extends Component {
         });
     }
 
-    _renderGeneres() {
-        return geners.map(geners => <Text tabLabel = {geners}/>);
+    _renderGenres() {
+        return genres.map((genres, i) => <Text key={i} tabLabel={genres} />);
     }
 
     /*tabType*/
@@ -95,23 +94,18 @@ export default class MovieList extends Component {
             <ScrollableTabView
                 initialPage={0}
                 renderTabBar={() => <ScrollableTabBar />}
-                tabBarUnderlineStyle={{}}
                 onChangeTab={(obj) => {
-                    this.setState({
-                        data: [],
-                        generes: geners[obj.i],
-                    });
-                    this.handleRefresh();
+                    var tmpGener = "";
+                    obj.i === 0 ? tmpGener = "" : tmpGener = genres[obj.i];
+                    this.setState({ genres: tmpGener }, () => { this.handleRefresh() });
                 }}
             >
-                {this._renderGeneres()}
+                {this._renderGenres()}
             </ScrollableTabView>
         )
-
     }
-    render() {
 
-        const { navigate } = this.props.navigation;
+    render() {
         return (
             <View style={{ flex: 1 }}>
                 <Header>
@@ -133,7 +127,7 @@ export default class MovieList extends Component {
                     data={this.state.data}
                     renderItem={this._renderMovies}
                     numColumns={2}
-                    keyExtractor={item => item.title}
+                    keyExtractor={item => item._id}
                     ListHeaderComponent={this._headerTabView()}
                     ListFooterComponent={this.renderFooter}
                     refreshing={this.state.refreshing}
@@ -141,11 +135,8 @@ export default class MovieList extends Component {
                     onEndReached={this.handleLoadMore}
                     onEndReachedThreshold={0}
                 />
-
             </View >
-
         );
     }
 }
-
 

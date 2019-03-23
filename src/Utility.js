@@ -162,7 +162,7 @@ export default class Utility {
         }
     }
 
-    static async getMovieList(generes, page) {
+    static async getMovieList(genres, page) {
         let token = await Utility.getToken();
         console.log("getMoive = " + token);
         try {
@@ -173,7 +173,7 @@ export default class Utility {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: Utility.parseBody({
-                    'generes': generes,
+                    'genres': genres,
                     'page': page,
                 })
             });
