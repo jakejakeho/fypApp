@@ -22,7 +22,7 @@ export default class MovieList extends Component {
         refreshing: false,
         data: [],
         genres: "",
-        page: 1,
+        page: 0,
         refreshing: false,
         movies: [],
         screenHeight: 0,
