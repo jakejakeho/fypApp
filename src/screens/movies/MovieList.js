@@ -34,6 +34,7 @@ export default class MovieList extends Component {
 
     componentWillMount() {
         this.makeRemoteRequest();
+        Utility.makeRecommendations();
     }
 
     makeRemoteRequest = () => {
@@ -112,6 +113,11 @@ export default class MovieList extends Component {
                 {this._renderGenres()}
             </ScrollableTabView>
         )
+    }
+
+    _renderRecommendation() {
+        let response = Utility.makeRecommendations();
+        console.log(response);
     }
 
     render() {

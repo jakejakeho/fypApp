@@ -256,16 +256,32 @@ export default class Utility {
             console.error(error);
         }   
     }
-
-    static async makeRecommendations() {
+    static async insertRecommendation(recommendation) {
         let token = await Utility.getToken();
-        console.log('test');
+
+        try{
+            let response = await fetch('http://localhost:3000/users/recommend', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    movieId: recommendation
+                })
+            })
+        }catch(error){
+            console.error(error);
+        }
+    }
+    static async makeRecommendations() {
+        console.log('making recommendation');
         let response = await Utility.getRating();
         console.log(JSON.stringify(response));
         let user = await Utility.getUserDetail();
-        console.log(user._id);
-
-        fetch('http://localhost:5000/SVDrecommender', {
+        console.log(`get user id : ${user._id}`);
+        
+       let recommendation = await fetch('http://localhost:5000/SVDrecommender', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -276,5 +292,8 @@ export default class Utility {
                     data: response
                 })
             });
+        let recommendationjson = await recommendation.json();
+        
+        Utility.insertRecommendation(recommendationjson);
     }
 }
