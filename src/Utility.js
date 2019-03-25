@@ -232,4 +232,49 @@ export default class Utility {
             console.error(error);
         }
     }
+
+    static async getRating() {
+        let token = await Utility.getToken();
+        console.log("getRating = " + token);
+
+        try {
+            let response = await fetch('http://fypbackend.mooo.com/users/rating', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+            });
+            let responseJson = await response.json();
+            console.log(responseJson);
+            if (responseJson.code == null) {
+                return responseJson;
+            } else {
+                return 'error';
+            }
+        } catch (error) {
+            console.error(error);
+        }   
+    }
+
+    static async makeRecommendations() {
+        let token = await Utility.getToken();
+        console.log('test');
+        let response = await Utility.getRating();
+        console.log(JSON.stringify(response));
+        let user = await Utility.getUserDetail();
+        console.log(user._id);
+
+        fetch('http://localhost:5000/SVDrecommender', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: user._id,
+                    data: response
+                })
+            });
+    }
 }

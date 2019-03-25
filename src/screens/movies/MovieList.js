@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, FlatList, Dimensions } from 'react-native';
+import { View, FlatList, Dimensions, TouchableOpacity } from 'react-native';
 import {
     Header,
     Left,
@@ -13,6 +13,8 @@ import {
 import MovieDetail from './MovieDetail';
 import Utility from '../../Utility'
 import ScrollableTabView, { DefaultTabBar, ScrollableTabBar } from 'react-native-scrollable-tab-view'
+import styles from '../radio/styles';
+import Emoji from 'react-native-emoji';
 
 
 const genres = ['All', 'Action', 'Animation', 'Children', 'Comedy', 'Fantasy', 'Sci-Fi', 'Horror', 'Fantasy', 'Romance']
@@ -32,7 +34,6 @@ export default class MovieList extends Component {
 
     componentWillMount() {
         this.makeRemoteRequest();
-
     }
 
     makeRemoteRequest = () => {
@@ -130,6 +131,7 @@ export default class MovieList extends Component {
                     </Body>
                     <Right />
                 </Header>
+        
                 <FlatList
                     tabLabel='All'
                     data={this.state.data}
@@ -142,7 +144,13 @@ export default class MovieList extends Component {
                     onRefresh={this.handleRefresh}
                     onEndReached={this.handleLoadMore}
                     onEndReachedThreshold={0}
-                />
+                    />
+                <View style={ {alignItems: 'center'}}>
+                    <TouchableOpacity style={styles.button}>
+                            <Emoji name="sunglasses" style={styles.emoji}/>
+                            <Text style={styles.text}>For You!</Text>
+                    </TouchableOpacity>
+                </View>
             </View >
         );
     }
