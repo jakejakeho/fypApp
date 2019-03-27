@@ -127,6 +127,7 @@ import MovieList from "./screens/movies/MovieList";
 import MovieHistoryList from "./screens/movies/MovieHistoryList";
 import MovieInfo from "./screens/movies/MovieInfo";
 import MovieDetail from "./screens/movies/MovieDetail";
+import MovieRecommendation from "./screens/movies/MovieRecommendation";
 
 const Drawer = DrawerNavigator(
   {
@@ -149,6 +150,7 @@ const AppNavigator = StackNavigator(
   {
     Drawer: { screen: Drawer },
     MovieInfo: { screen: MovieInfo },
+    MovieRecommendation: { screen: MovieRecommendation }
 
   },
   {

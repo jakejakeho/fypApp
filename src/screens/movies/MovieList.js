@@ -34,9 +34,8 @@ export default class MovieList extends Component {
 
     componentWillMount() {
         this.makeRemoteRequest();
-        Utility.makeRecommendations();
-        Utility.getRecommendationList();
     }
+
 
     makeRemoteRequest = () => {
         const { genres, page } = this.state;
@@ -116,9 +115,12 @@ export default class MovieList extends Component {
         )
     }
 
-    _renderRecommendation() {
-        Utility.getRecommendationList();
-    }
+    _renderRecommendation = () => {
+
+        this.props.navigation.navigate("MovieRecommendation");
+
+        };
+
 
     render() {
         return (

@@ -260,7 +260,7 @@ export default class Utility {
         let token = await Utility.getToken();
         console.log(`inserting recommendation: ${token}`);
         try{
-            let response = await fetch('http://fypbackend.mooo.com/users/recommend', {
+            let response = await fetch('http://localhost:3000/users/recommend', {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -292,6 +292,7 @@ export default class Utility {
                 body: JSON.stringify({
                     userId: user._id,
                     data: response
+
                 })
             });
         let recommendationjson = await recommendation.json();
@@ -303,12 +304,35 @@ export default class Utility {
         let token = await Utility.getToken();
         console.log(`get recommendation list: ${token}`);
         try {
-            let response = await fetch('http://fypbackend.mooo.com/users/recommend',{
+            let response = await fetch('http://localhost:3000/users/recommend',{
                 method: 'GET',
-                header: {
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+            });
+            let responseJson = await response.json();
+            console.log(responseJson);
+            if (responseJson.code == null) {
+                return responseJson;
+            } else {
+                return 'error';
+            }
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    static async getMovieById (movieId){
+        let token = await Utility.getToken();
+        console.log(`get movie by movie id: ${token}`);
+        try{
+            let response = await fetch(`http://localhost:3000/movies/${movieId}`,{
+                method: 'GET',
+                headers: {        
                     'Authorization': 'Bearer ' + token,
                     'Content-Type': 'application/x-www-form-urlencoded'
-                },
+                }
             });
             let responseJson = await response.json();
             console.log(responseJson);
