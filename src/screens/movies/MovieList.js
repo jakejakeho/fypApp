@@ -36,6 +36,15 @@ export default class MovieList extends Component {
         this.makeRemoteRequest();
     }
 
+    componentDidMount() {
+        this.props.navigation.addListener(
+            'didFocus',
+            payload => {
+              this.forceUpdate();
+              Utility.makeRecommendations();
+            }
+          );
+    }
 
     makeRemoteRequest = () => {
         const { genres, page } = this.state;
