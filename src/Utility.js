@@ -258,9 +258,9 @@ export default class Utility {
     }
     static async insertRecommendation(recommendation) {
         let token = await Utility.getToken();
-
+        console.log(`inserting recommendation: ${token}`);
         try{
-            let response = await fetch('http://localhost:3000/users/recommend', {
+            let response = await fetch('http://fypbackend.mooo.com/users/recommend', {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -270,6 +270,8 @@ export default class Utility {
                     movieId: recommendation
                 })
             })
+            let responseJson = await response.json();
+            console.log(responseJson);
         }catch(error){
             console.error(error);
         }
@@ -295,5 +297,28 @@ export default class Utility {
         let recommendationjson = await recommendation.json();
         
         Utility.insertRecommendation(recommendationjson);
+    }
+
+    static async getRecommendationList(){
+        let token = await Utility.getToken();
+        console.log(`get recommendation list: ${token}`);
+        try {
+            let response = await fetch('http://fypbackend.mooo.com/users/recommend',{
+                method: 'GET',
+                header: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+            });
+            let responseJson = await response.json();
+            console.log(responseJson);
+            if (responseJson.code == null) {
+                return responseJson;
+            } else {
+                return 'error';
+            }
+        }catch(error){
+            console.log(error);
+        }
     }
 }
