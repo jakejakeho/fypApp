@@ -5,6 +5,10 @@ import React, {
     View,
     Text
 } from 'react-native';
+
+const serverAddress = 'https://fypbackend.mooo.com';
+const localAddress = 'http://localhost:3000';
+
 export default class Utility {
 
     static async getToken() {
@@ -50,7 +54,7 @@ export default class Utility {
 
     static async login(username, password) {
         try {
-            let response = await fetch('https://fypbackend.mooo.com/users/login', {
+            let response = await fetch(`${serverAddress}/users/login`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Basic bW9iaWxlYXBwOmF3ZXNvbWVmeXA=',
@@ -87,7 +91,7 @@ export default class Utility {
             formdata.append('userImage', { uri: image, name: 'image.jpg', type: 'image/jpeg' })
 
 
-            let response = await fetch('https://fypbackend.mooo.com/users/register', {
+            let response = await fetch(`${serverAddress}/users/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -110,7 +114,7 @@ export default class Utility {
         let token = await Utility.getToken();
         try {
             console.log("inserting history");
-            let response = await fetch('https://fypbackend.mooo.com/users/history', {
+            let response = await fetch(`${serverAddress}/users/history`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -138,7 +142,7 @@ export default class Utility {
         let token = await Utility.getToken();
         try {
             console.log("inserting rating");
-            let response = await fetch('https://fypbackend.mooo.com/users/rating', {
+            let response = await fetch(`${serverAddress}/users/rating`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -166,7 +170,7 @@ export default class Utility {
         let token = await Utility.getToken();
         console.log("getMoive = " + token);
         try {
-            let response = await fetch('http://fypbackend.mooo.com/movies', {
+            let response = await fetch(`${serverAddress}/movies`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -192,7 +196,7 @@ export default class Utility {
         let token = await Utility.getToken();
         console.log("getMoiveHistory = " + token);
         try {
-            let response = await fetch('http://fypbackend.mooo.com/users/history', {
+            let response = await fetch(`${serverAddress}/users/history`, {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -214,7 +218,7 @@ export default class Utility {
         let token = await Utility.getToken();
         console.log("getMoive = " + token);
         try {
-            let response = await fetch('http://fypbackend.mooo.com/users/info', {
+            let response = await fetch(`${serverAddress}/users/info`, {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -238,7 +242,7 @@ export default class Utility {
         console.log("getRating = " + token);
 
         try {
-            let response = await fetch('http://fypbackend.mooo.com/users/rating', {
+            let response = await fetch(`${serverAddress}/users/rating`, {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -260,7 +264,7 @@ export default class Utility {
         let token = await Utility.getToken();
         console.log(`inserting recommendation: ${token}`);
         try{
-            let response = await fetch('http://localhost:3000/users/recommend', {
+            let response = await fetch(`${localAddress}/users/recommend`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -304,7 +308,7 @@ export default class Utility {
         let token = await Utility.getToken();
         console.log(`get recommendation list: ${token}`);
         try {
-            let response = await fetch('http://localhost:3000/users/recommend',{
+            let response = await fetch(`${localAddress}/users/recommend`,{
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -327,7 +331,7 @@ export default class Utility {
         let token = await Utility.getToken();
         console.log(`get movie by movie id: ${token}`);
         try{
-            let response = await fetch(`http://localhost:3000/movies/${movieId}`,{
+            let response = await fetch(`${serverAddress}/movies/${movieId}`,{
                 method: 'GET',
                 headers: {        
                     'Authorization': 'Bearer ' + token,
