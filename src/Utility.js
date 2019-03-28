@@ -6,8 +6,14 @@ import React, {
     Text
 } from 'react-native';
 
-const serverAddress = 'https://fypbackend.mooo.com';
-const localAddress = 'http://localhost:3000';
+
+const isDebug = 0;
+const nodeGCP = 'https://fypbackend.mooo.com';
+const nodeLocal = 'http://localhost:3000';
+const node = isDebug ? nodeLocal : nodeGCP;
+const mlGCP = 'https://fypbackend.mooo.com:5000';
+const mlLocal = 'http://localhost:5000';
+const ml = isDebug ? mlLocal : mlGCP;
 
 export default class Utility {
 
@@ -54,7 +60,7 @@ export default class Utility {
 
     static async login(username, password) {
         try {
-            let response = await fetch(`${serverAddress}/users/login`, {
+            let response = await fetch(`${node}/users/login`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Basic bW9iaWxlYXBwOmF3ZXNvbWVmeXA=',
@@ -91,7 +97,7 @@ export default class Utility {
             formdata.append('userImage', { uri: image, name: 'image.jpg', type: 'image/jpeg' })
 
 
-            let response = await fetch(`${serverAddress}/users/register`, {
+            let response = await fetch(`${node}/users/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -114,7 +120,7 @@ export default class Utility {
         let token = await Utility.getToken();
         try {
             console.log("inserting history");
-            let response = await fetch(`${serverAddress}/users/history`, {
+            let response = await fetch(`${node}/users/history`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -142,7 +148,7 @@ export default class Utility {
         let token = await Utility.getToken();
         try {
             console.log("inserting rating");
-            let response = await fetch(`${serverAddress}/users/rating`, {
+            let response = await fetch(`${node}/users/rating`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -170,7 +176,7 @@ export default class Utility {
         let token = await Utility.getToken();
         console.log("getMoive = " + token);
         try {
-            let response = await fetch(`${serverAddress}/movies`, {
+            let response = await fetch(`${node}/movies`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -196,7 +202,7 @@ export default class Utility {
         let token = await Utility.getToken();
         console.log("getMoiveHistory = " + token);
         try {
-            let response = await fetch(`${serverAddress}/users/history`, {
+            let response = await fetch(`${node}/users/history`, {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -218,7 +224,7 @@ export default class Utility {
         let token = await Utility.getToken();
         console.log("getMoive = " + token);
         try {
-            let response = await fetch(`${serverAddress}/users/info`, {
+            let response = await fetch(`${node}/users/info`, {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -242,7 +248,7 @@ export default class Utility {
         console.log("getRating = " + token);
 
         try {
-            let response = await fetch(`${serverAddress}/users/rating`, {
+            let response = await fetch(`${node}/users/rating`, {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -264,7 +270,7 @@ export default class Utility {
         let token = await Utility.getToken();
         console.log(`inserting recommendation: ${token}`);
         try{
-            let response = await fetch(`${localAddress}/users/recommend`, {
+            let response = await fetch(`${node}/users/recommend`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -287,7 +293,7 @@ export default class Utility {
         let user = await Utility.getUserDetail();
         console.log(`get user id : ${user._id}`);
         
-       let recommendation = await fetch('http://localhost:5000/SVDrecommender', {
+       let recommendation = await fetch(`${ml}/SVDrecommender`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -308,7 +314,7 @@ export default class Utility {
         let token = await Utility.getToken();
         console.log(`get recommendation list: ${token}`);
         try {
-            let response = await fetch(`${localAddress}/users/recommend`,{
+            let response = await fetch(`${node}/users/recommend`,{
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -331,7 +337,7 @@ export default class Utility {
         let token = await Utility.getToken();
         console.log(`get movie by movie id: ${token}`);
         try{
-            let response = await fetch(`${serverAddress}/movies/${movieId}`,{
+            let response = await fetch(`${node}/movies/${movieId}`,{
                 method: 'GET',
                 headers: {        
                     'Authorization': 'Bearer ' + token,
