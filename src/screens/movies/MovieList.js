@@ -34,7 +34,16 @@ export default class MovieList extends Component {
 
     componentWillMount() {
         this.makeRemoteRequest();
-        Utility.makeRecommendations();
+    }
+
+    componentDidMount() {
+        this.props.navigation.addListener(
+            'didFocus',
+            payload => {
+              this.forceUpdate();
+              Utility.makeRecommendations();
+            }
+          );
     }
 
     makeRemoteRequest = () => {
@@ -115,10 +124,12 @@ export default class MovieList extends Component {
         )
     }
 
-    _renderRecommendation() {
-        let response = Utility.makeRecommendations();
-        console.log(response);
-    }
+    _renderRecommendation = () => {
+
+        this.props.navigation.navigate("MovieRecommendation");
+
+        };
+
 
     render() {
         return (
@@ -152,7 +163,7 @@ export default class MovieList extends Component {
                     onEndReachedThreshold={0}
                     />
                 <View style={ {alignItems: 'center'}}>
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity style={styles.button} onPress={this._renderRecommendation}>
                             <Emoji name="sunglasses" style={styles.emoji}/>
                             <Text style={styles.text}>For You!</Text>
                     </TouchableOpacity>
