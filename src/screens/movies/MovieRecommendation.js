@@ -35,7 +35,7 @@ export default class MovieRecommendation extends Component {
     }
     renderMovies(navigate) {
         return this.state.movies.map(movie =>
-            <MovieDetail key={movie.title} movie={movie} navigate={navigate} />
+            <MovieDetail key={movie.title} movie={movie} navigate={this.props.navigation} />
         );
     }
 
