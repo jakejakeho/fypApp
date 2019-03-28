@@ -11,7 +11,7 @@ const isDebug = 0;
 const nodeGCP = 'https://fypbackend.mooo.com';
 const nodeLocal = 'http://localhost:3000';
 const node = isDebug ? nodeLocal : nodeGCP;
-const mlGCP = 'https://fypbackend.mooo.com:5000';
+const mlGCP = 'http://fypbackend.mooo.com:5000';
 const mlLocal = 'http://localhost:5000';
 const ml = isDebug ? mlLocal : mlGCP;
 
