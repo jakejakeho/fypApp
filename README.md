@@ -2,16 +2,6 @@
 
 This app will recommend different movies for the users.
 
-## Getting Started
-
-This app has used React Native with Expo-CLI.
-
-### Prerequisites
-
-* Node.js
-* React-Native
-* Expo-cli
-
 ### Installation
 
 * Install Expo Client for Android
