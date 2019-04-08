@@ -19,9 +19,8 @@ export default {
     width: null,
   },
   drawerImage: {
-    height: 80,
-    borderRadius: 45,
-    width: 80,
+    height: 120,
+    width: 120,
     resizeMode: 'cover',
   },
   drawerUser: {

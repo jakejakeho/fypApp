@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Image, ImageBackground, View } from "react-native";
-import DrawerLayout from 'react-native-drawer-layout';
-import { NavigationEvents } from 'react-navigation';
+import { Avatar } from 'react-native-elements';
 import {
   Content,
   Text,
@@ -80,7 +79,7 @@ class SideBar extends Component {
             <View style={styles.profileView}>
 
               {this.state.profile && (
-                <Image source={{ uri: this.state.profile }} style={styles.drawerImage} />)}
+                <Avatar rounded source={{ uri: this.state.profile }} style={styles.drawerImage} />)}
               {!this.state.profile && (
                 <Image source={profileImage} style={styles.drawerImage} />)}
               {this.state.name && (

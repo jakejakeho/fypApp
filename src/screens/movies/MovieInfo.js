@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView, Image, WebView } from 'react-native';
-import { Constants } from 'expo';
+import Slideshow from 'react-native-image-slider-show';
 import {
     Container,
     Header,
@@ -58,16 +58,28 @@ class MovieInfo extends Component {
 
 
     }
+
+    images(paths) {
+        results = [];
+        if (paths != null) {
+            for (var i = 0; i < paths.length; i++) {
+                results.push({ url: "https://image.tmdb.org/t/p/w500" + paths[i] });
+            }
+        }
+        return results;
+    }
+
     renderMovieInfo(params) {
         const { container, posterStyle, containerStyle, container2Style, labelStyle, overviewStyle, ratingStyle } = styles;
-
+        this.state.params = params;
+        console.log(params.backdrop_path);
         return (
 
             <Card>
                 <View style={containerStyle}>
-                    <Image style={posterStyle} source={{ uri: params.poster_path }} />
+                    <Slideshow
+                        dataSource={this.images(params.backdrop_path)} />
                 </View>
-
                 <WebView
                     style={{
                         flex: 1,
@@ -156,8 +168,6 @@ const styles = {
     },
     containerStyle: {
         justifyContent: 'center',
-        paddingLeft: 20,
-        paddingRight: 20,
         borderRadius: 20
     },
     posterStyle: {
