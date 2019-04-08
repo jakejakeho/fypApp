@@ -7,9 +7,9 @@ import React, {
 } from 'react-native';
 
 
-const isDebug = 0;
 const nodeGCP = 'https://fypbackend.mooo.com';
-const nodeLocal = 'http://localhost:3000';
+const nodeLocal = 'http://192.168.1.105:3000';
+const isDebug = 0;
 const node = isDebug ? nodeLocal : nodeGCP;
 const mlGCP = 'http://fypbackend.mooo.com:5000';
 const mlLocal = 'http://localhost:5000';
@@ -144,6 +144,33 @@ export default class Utility {
         }
     }
 
+    static async insertGenreHistory(genre_history) {
+        let token = await Utility.getToken();
+        try {
+            console.log("inserting genre_history");
+            let response = await fetch(`${node}/users/genre_history`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: Utility.parseBody({
+                    'genre': genre_history,
+                    'date': new Date().getTime() / 1000,
+                })
+            });
+            let responseJson = await response.json();
+            console.log(responseJson);
+            if (responseJson.code == null) {
+                return 'success';
+            } else {
+                return 'error';
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     static async insertRating(rating) {
         let token = await Utility.getToken();
         try {
@@ -172,7 +199,7 @@ export default class Utility {
         }
     }
 
-    static async getMovieList(genres, page) {
+    static async getMovieList(genres, page, search) {
         let token = await Utility.getToken();
         console.log("getMoive = " + token);
         try {
@@ -185,6 +212,7 @@ export default class Utility {
                 body: Utility.parseBody({
                     'genres': genres,
                     'page': page,
+                    'search' : search,
                 })
             });
             let responseJson = await response.json();

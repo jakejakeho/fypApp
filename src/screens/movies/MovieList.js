@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, FlatList, Dimensions, TouchableOpacity } from 'react-native';
+import { View, FlatList, Dimensions, TouchableOpacity, Keyboard } from 'react-native';
 import {
     Header,
     Left,
@@ -10,9 +10,10 @@ import {
     Right,
     Text
 } from "native-base";
+import { SearchBar } from 'react-native-elements';
 import MovieDetail from './MovieDetail';
 import Utility from '../../Utility'
-import ScrollableTabView, { DefaultTabBar, ScrollableTabBar } from 'react-native-scrollable-tab-view'
+import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view'
 import styles from '../radio/styles';
 import Emoji from 'react-native-emoji';
 
@@ -30,6 +31,8 @@ export default class MovieList extends Component {
         screenHeight: 0,
         isLoadingMore: false,
         isLastData: false,
+        search: '',
+        lastGenre: '',
     };
 
     componentWillMount() {
@@ -40,16 +43,23 @@ export default class MovieList extends Component {
         this.props.navigation.addListener(
             'didFocus',
             payload => {
-              this.forceUpdate();
-              Utility.makeRecommendations();
+                this.forceUpdate();
+                Utility.makeRecommendations();
             }
-          );
+        );
     }
 
     makeRemoteRequest = () => {
-        const { genres, page } = this.state;
-        console.log("getting " + genres + " page " + page);
-        Utility.getMovieList(genres, page).then((response) => {
+        const { genres, page, search, lastGenre } = this.state;
+        if (genres != lastGenre) {
+            console.log("new genre" + "getting " + genres + " page " + page + " search " + search);
+            this.setState({
+                lastGenre: genres
+            });
+            Utility.insertGenreHistory(genres);
+        }
+        console.log("getting " + genres + " page " + page + " search " + search);
+        Utility.getMovieList(genres, page, search).then((response) => {
             this.setState({
                 isLastData: response.length > 0 ? false : true,
                 data: page === 0 ? response : [...this.state.data, ...response],
@@ -90,6 +100,15 @@ export default class MovieList extends Component {
         });
     }
 
+    updateSearch = search => {
+        this.setState({
+            search
+        }, () => {
+            console.log(search);
+            this.handleRefresh();
+        });
+    };
+
     handleLoadMore = () => {
         console.log("handleLoadMore");
         if (!this.state.isLastData) {
@@ -128,7 +147,7 @@ export default class MovieList extends Component {
 
         this.props.navigation.navigate("MovieRecommendation");
 
-        };
+    };
 
 
     render() {
@@ -138,7 +157,7 @@ export default class MovieList extends Component {
                     <Left>
                         <Button
                             transparent
-                            onPress={() => this.props.navigation.navigate("DrawerOpen")}
+                            onPress={() => { Keyboard.dismiss(); this.props.navigation.navigate("DrawerOpen"); }}
                         >
                             <Icon name="ios-menu" />
                         </Button>
@@ -146,10 +165,18 @@ export default class MovieList extends Component {
                     <Body>
                         <Title>Movies</Title>
                     </Body>
+
                     <Right />
                 </Header>
-        
+                <SearchBar
+                    placeholder="Type Here..."
+                    onChangeText={this.updateSearch}
+                    showLoading={true}
+                    lightTheme={true}
+                    value={this.state.search}
+                />
                 <FlatList
+                    onPress={Keyboard.dismiss}
                     tabLabel='All'
                     data={this.state.data}
                     renderItem={this._renderMovies.bind(this)}
@@ -161,11 +188,11 @@ export default class MovieList extends Component {
                     onRefresh={this.handleRefresh}
                     onEndReached={this.handleLoadMore}
                     onEndReachedThreshold={0}
-                    />
-                <View style={ {alignItems: 'center'}}>
+                />
+                <View style={{ alignItems: 'center' }}>
                     <TouchableOpacity style={styles.button} onPress={this._renderRecommendation}>
-                            <Emoji name="sunglasses" style={styles.emoji}/>
-                            <Text style={styles.text}>For You!</Text>
+                        <Emoji name="sunglasses" style={styles.emoji} />
+                        <Text style={styles.text}>For You!</Text>
                     </TouchableOpacity>
                 </View>
             </View >

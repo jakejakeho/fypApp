@@ -1,5 +1,5 @@
 {
-  "name": "fypApp",
+  "name": "fypapp",
   "version": "2.5.0",
   "private": true,
   "devDependencies": {
@@ -44,9 +44,11 @@
     "react-native-elements": "0.19.1",
     "react-native-emoji": "^1.5.0",
     "react-native-image-crop-picker": "^0.22.0",
+    "react-native-image-slider-show": "^1.0.3",
+    "react-native-indicators": "^0.13.0",
+    "react-native-progress": "^3.6.0",
     "react-native-ratings": "^6.3.0",
     "react-native-scrollable-tab-view": "^0.10.0",
-    "react-native-youtube": "^1.1.0",
     "react-navigation": "1.6.1"
   }
 }
