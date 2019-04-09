@@ -1,9 +1,9 @@
 import React, { Component, propTypes } from 'react';
 import { Text, View, Image, TouchableOpacity, Dimensions } from 'react-native';
-import { MaterialIndicator } from 'react-native-indicators';
+import ProImage from 'pro-image';
 const { width, height } = Dimensions.get('window');
 const cols = 2, rows = 2;
-
+ProImage.setDefaultConfig({ duration: 250 });
 class MovieDetail extends Component {
     state = {
         loading: true,
@@ -16,8 +16,11 @@ class MovieDetail extends Component {
 
             <TouchableOpacity style={styles.container} onPress={() => this.props.navigate.navigate('MovieInfo', { movieId, title, overview, poster_path, trailerId, backdrop_path })}>
                 <View style={imageContainerStyle}>
-                    {this.state.loading && (<MaterialIndicator color='blue' />)}
-                    <Image source={{ uri: "https://image.tmdb.org/t/p/w500" + poster_path }} style={posterStyle} onLoadEnd={() => { this.setState({ loading: false }) }} />
+                    <ProImage
+                        thumbnail={{ uri: "https://image.tmdb.org/t/p/w92" + poster_path }}
+                        image={{ uri: "https://image.tmdb.org/t/p/w500" + poster_path }}
+                        style={posterStyle}
+                    />
                 </View>
                 <Text style={titleTextStyle} numberOfLines={1}>{title}</Text>
                 <Text style={genresTextStyle} numberOfLines={1}>
