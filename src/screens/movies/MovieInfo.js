@@ -60,7 +60,7 @@ class MovieInfo extends Component {
     }
 
     images(paths) {
-        results = [];
+        let results = [];
         if (paths != null) {
             for (var i = 0; i < paths.length; i++) {
                 results.push({ url: "https://image.tmdb.org/t/p/w500" + paths[i] });

@@ -16,11 +16,13 @@ import Utility from '../../Utility'
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view'
 import styles from '../radio/styles';
 import Emoji from 'react-native-emoji';
+import * as Animatable from 'react-native-animatable';
 
 
 const genres = ['All', 'Action', 'Animation', 'Children', 'Comedy', 'Fantasy', 'Sci-Fi', 'Horror', 'Fantasy', 'Romance']
 export default class MovieList extends Component {
     state = {
+        buttonLoading: true,
         loading: false,
         refreshing: false,
         data: [],
@@ -43,8 +45,14 @@ export default class MovieList extends Component {
         this.props.navigation.addListener(
             'didFocus',
             payload => {
-                this.forceUpdate();
-                Utility.makeRecommendations();
+                this.setState({buttonLoading: true});
+                Utility.getRating().then((res)=>{
+                    if(res.length > 0){
+                        Utility.makeRecommendations().then(()=>{
+                            this.setState({buttonLoading: false});
+                        });
+                    }
+                });
             }
         );
     }
@@ -142,6 +150,27 @@ export default class MovieList extends Component {
             </ScrollableTabView>
         )
     }
+    renderRecommendationbutton = () =>{
+        if(this.state.buttonLoading){
+            return (
+                <Animatable.View animation="fadeOutDown" duration={500} style={{ alignItems: 'center' }}>
+                    <TouchableOpacity style={styles.button} onPress={this._renderRecommendation}>
+                        <Emoji name="sunglasses" style={styles.emoji} />
+                        <Text style={styles.text}>For You!</Text>
+                    </TouchableOpacity>
+                </Animatable.View>
+            );
+        }else{
+            return (
+                <Animatable.View animation="fadeInUp"style={{ alignItems: 'center' }}>
+                    <TouchableOpacity style={styles.button} onPress={this._renderRecommendation}>
+                        <Emoji name="sunglasses" style={styles.emoji} />
+                        <Text style={styles.text}>For You!</Text>
+                    </TouchableOpacity>
+                </Animatable.View>
+            );
+        }
+    }
 
     _renderRecommendation = () => {
 
@@ -189,12 +218,8 @@ export default class MovieList extends Component {
                     onEndReached={this.handleLoadMore}
                     onEndReachedThreshold={0}
                 />
-                <View style={{ alignItems: 'center' }}>
-                    <TouchableOpacity style={styles.button} onPress={this._renderRecommendation}>
-                        <Emoji name="sunglasses" style={styles.emoji} />
-                        <Text style={styles.text}>For You!</Text>
-                    </TouchableOpacity>
-                </View>
+                {this.renderRecommendationbutton()}
+                
             </View >
         );
     }
