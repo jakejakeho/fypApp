@@ -9,11 +9,12 @@ import React, {
 
 const nodeGCP = 'https://fypbackend.mooo.com';
 const nodeLocal = 'http://192.168.1.105:3000';
-const isDebug = 0;
+const isDebug = 1;
 const node = isDebug ? nodeLocal : nodeGCP;
 const mlGCP = 'http://fypbackend.mooo.com:5000';
 const mlLocal = 'http://localhost:5000';
-const ml = isDebug ? mlLocal : mlGCP;
+const isMLDebug = 0;
+const ml = isMLDebug ? mlLocal : mlGCP;
 
 export default class Utility {
 
@@ -85,7 +86,7 @@ export default class Utility {
         }
     }
 
-    static async register(username, password, name, email, image) {
+    static async register(username, password, name, email, image, favouriteGenre, gender, DOB) {
         try {
             console.log(image);
             let formdata = new FormData();
@@ -95,7 +96,9 @@ export default class Utility {
             formdata.append("name", name)
             formdata.append("email", email)
             formdata.append('userImage', { uri: image, name: 'image.jpg', type: 'image/jpeg' })
-
+            formdata.append('favouriteGenre', favouriteGenre);
+            formdata.append('gender', gender);
+            formdata.append('DOB', DOB);
 
             let response = await fetch(`${node}/users/register`, {
                 method: 'POST',

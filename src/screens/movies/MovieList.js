@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, FlatList, Dimensions, TouchableOpacity, Keyboard } from 'react-native';
+import { View, FlatList, Dimensions, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import {
     Header,
     Left,
@@ -45,11 +45,11 @@ export default class MovieList extends Component {
         this.props.navigation.addListener(
             'didFocus',
             payload => {
-                this.setState({buttonLoading: true});
-                Utility.getRating().then((res)=>{
-                    if(res.length > 0){
-                        Utility.makeRecommendations().then(()=>{
-                            this.setState({buttonLoading: false});
+                this.setState({ buttonLoading: true });
+                Utility.getRating().then((res) => {
+                    if (res.length > 0) {
+                        Utility.makeRecommendations().then(() => {
+                            this.setState({ buttonLoading: false });
                         });
                     }
                 });
@@ -150,8 +150,8 @@ export default class MovieList extends Component {
             </ScrollableTabView>
         )
     }
-    renderRecommendationbutton = () =>{
-        if(this.state.buttonLoading){
+    renderRecommendationbutton = () => {
+        if (this.state.buttonLoading) {
             return (
                 <Animatable.View animation="fadeOutDown" duration={500} style={{ alignItems: 'center' }}>
                     <TouchableOpacity style={styles.button} onPress={this._renderRecommendation}>
@@ -160,9 +160,9 @@ export default class MovieList extends Component {
                     </TouchableOpacity>
                 </Animatable.View>
             );
-        }else{
+        } else {
             return (
-                <Animatable.View animation="fadeInUp"style={{ alignItems: 'center' }}>
+                <Animatable.View animation="fadeInUp" style={{ alignItems: 'center' }}>
                     <TouchableOpacity style={styles.button} onPress={this._renderRecommendation}>
                         <Emoji name="sunglasses" style={styles.emoji} />
                         <Text style={styles.text}>For You!</Text>
@@ -204,22 +204,24 @@ export default class MovieList extends Component {
                     lightTheme={true}
                     value={this.state.search}
                 />
-                <FlatList
-                    onPress={Keyboard.dismiss}
-                    tabLabel='All'
-                    data={this.state.data}
-                    renderItem={this._renderMovies.bind(this)}
-                    numColumns={2}
-                    keyExtractor={item => item._id}
-                    ListHeaderComponent={this._headerTabView()}
-                    ListFooterComponent={this.renderFooter}
-                    refreshing={this.state.refreshing}
-                    onRefresh={this.handleRefresh}
-                    onEndReached={this.handleLoadMore}
-                    onEndReachedThreshold={0}
-                />
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <FlatList
+                        onPress={Keyboard.dismiss}
+                        tabLabel='All'
+                        data={this.state.data}
+                        renderItem={this._renderMovies.bind(this)}
+                        numColumns={2}
+                        keyExtractor={item => item._id}
+                        ListHeaderComponent={this._headerTabView()}
+                        ListFooterComponent={this.renderFooter}
+                        refreshing={this.state.refreshing}
+                        onRefresh={this.handleRefresh}
+                        onEndReached={this.handleLoadMore}
+                        onEndReachedThreshold={0}
+                    />
+                </TouchableWithoutFeedback>
                 {this.renderRecommendationbutton()}
-                
+
             </View >
         );
     }
