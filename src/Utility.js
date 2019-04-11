@@ -8,7 +8,7 @@ import React, {
 
 
 const nodeGCP = 'https://fypbackend.mooo.com';
-const nodeLocal = 'http://192.168.1.105:3000';
+const nodeLocal = 'http://192.168.0.108:3000';
 const isDebug = 1;
 const node = isDebug ? nodeLocal : nodeGCP;
 const mlGCP = 'http://fypbackend.mooo.com:5000';
@@ -87,8 +87,10 @@ export default class Utility {
     }
 
     static async register(username, password, name, email, image, favouriteGenre, gender, DOB) {
+        if(image == null){
+            image = 'https://fypbackend.mooo.com/file/usericon/318dc87cd9f9228fff9335233ed77efa5cfb.jpg';
+        }
         try {
-            console.log(image);
             let formdata = new FormData();
 
             formdata.append("username", username)
@@ -108,7 +110,7 @@ export default class Utility {
                 body: formdata
             });
             let responseJson = await response.json();
-            console.log(responseJson);
+            //console.log(responseJson);
             if (responseJson.code == null) {
                 return 'success';
             } else {
@@ -215,7 +217,7 @@ export default class Utility {
                 body: Utility.parseBody({
                     'genres': genres,
                     'page': page,
-                    'search' : search,
+                    'search': search,
                 })
             });
             let responseJson = await response.json();
@@ -254,24 +256,27 @@ export default class Utility {
     static async getUserDetail() {
         let token = await Utility.getToken();
         console.log("getMoive = " + token);
-        try {
-            let response = await fetch(`${node}/users/info`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-            });
-            let responseJson = await response.json();
-            console.log(responseJson);
-            if (responseJson.code == null) {
-                return responseJson;
-            } else {
-                return 'error';
+        if (token != null) {
+            try {
+                let response = await fetch(`${node}/users/info`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                });
+                let responseJson = await response.json();
+                console.log(responseJson);
+                if (responseJson.code == null) {
+                    return responseJson;
+                } else {
+                    return 'error';
+                }
+            } catch (error) {
+                console.error(error);
             }
-        } catch (error) {
-            console.error(error);
         }
+        return 'error';
     }
 
     static async getRating() {
@@ -295,12 +300,12 @@ export default class Utility {
             }
         } catch (error) {
             console.error(error);
-        }   
+        }
     }
     static async insertRecommendation(recommendation) {
         let token = await Utility.getToken();
         console.log(`inserting recommendation: ${token}`);
-        try{
+        try {
             let response = await fetch(`${node}/users/recommend`, {
                 method: 'POST',
                 headers: {
@@ -313,7 +318,7 @@ export default class Utility {
             })
             let responseJson = await response.json();
             console.log(responseJson);
-        }catch(error){
+        } catch (error) {
             console.error(error);
         }
     }
@@ -323,29 +328,29 @@ export default class Utility {
         console.log(JSON.stringify(response));
         let user = await Utility.getUserDetail();
         console.log(`get user id : ${user._id}`);
-        
-       let recommendation = await fetch(`${ml}/SVDrecommender`, {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    userId: user._id,
-                    data: response
 
-                })
-            });
+        let recommendation = await fetch(`${ml}/SVDrecommender`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userId: user._id,
+                data: response
+
+            })
+        });
         let recommendationjson = await recommendation.json();
-        
+
         Utility.insertRecommendation(recommendationjson);
     }
 
-    static async getRecommendationList(){
+    static async getRecommendationList() {
         let token = await Utility.getToken();
         console.log(`get recommendation list: ${token}`);
         try {
-            let response = await fetch(`${node}/users/recommend`,{
+            let response = await fetch(`${node}/users/recommend`, {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -359,18 +364,18 @@ export default class Utility {
             } else {
                 return 'error';
             }
-        }catch(error){
+        } catch (error) {
             console.log(error);
         }
     }
 
-    static async getMovieById (movieId){
+    static async getMovieById(movieId) {
         let token = await Utility.getToken();
         console.log(`get movie by movie id: ${token}`);
-        try{
-            let response = await fetch(`${node}/movies/${movieId}`,{
+        try {
+            let response = await fetch(`${node}/movies/${movieId}`, {
                 method: 'GET',
-                headers: {        
+                headers: {
                     'Authorization': 'Bearer ' + token,
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -382,7 +387,7 @@ export default class Utility {
             } else {
                 return 'error';
             }
-        }catch(error){
+        } catch (error) {
             console.log(error);
         }
     }

@@ -53,8 +53,8 @@ export default class SignUpScreen extends Component {
         });
     }
     setDate(value){
-        value = Number(value);
-        console.log("DOB = " + value);
+        offset = value.getTimezoneOffset();
+        value = value.getTime() / 1000 - offset * 60;
         this.setState({
             DOB:value
         });
@@ -137,7 +137,7 @@ export default class SignUpScreen extends Component {
                                 onDateChange={this.setDate.bind(this)}
                                 disabled={false}
                             />
-                            <Button block primary style={styles.mb15} onPress={() => this.onSignUp()}>
+                            <Button block primary style={styles.mb15} onPress={this.onSignUp.bind(this)}>
                                 <Text>Sign Up</Text>
                             </Button>
                         </Content>
@@ -157,7 +157,7 @@ export default class SignUpScreen extends Component {
     }
 
     onSignUp() {
-        Utility.register(this.state.username, this.state.password, this.state.name, this.state.email, this.state.image).then((res) => {
+        Utility.register(this.state.username, this.state.password, this.state.name, this.state.email, image, genres[this.state.favouriteGenre], gender[this.state.gender], this.state.DOB).then((res) => {
             if (res != 'error') {
                 console.log('ok');
                 alert("Register Succeed!");

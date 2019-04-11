@@ -44,8 +44,8 @@ class SideBar extends Component {
       shadowOffsetWidth: 1,
       shadowRadius: 4,
       profile: null,
-      name: null,
-      email: null,
+      name: '',
+      email: '',
     };
   }
 
