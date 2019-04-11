@@ -9,7 +9,7 @@ import React, {
 
 const nodeGCP = 'https://fypbackend.mooo.com';
 const nodeLocal = 'http://192.168.0.108:3000';
-const isDebug = 1;
+const isDebug = 0;
 const node = isDebug ? nodeLocal : nodeGCP;
 const mlGCP = 'http://fypbackend.mooo.com:5000';
 const mlLocal = 'http://localhost:5000';
