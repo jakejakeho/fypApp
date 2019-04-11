@@ -22,7 +22,6 @@ import { ImagePicker } from 'expo';
 import { Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView, Image, ScrollView } from 'react-native';
 import Utility from '../../Utility'
 const profileImage = require("../../../assets/icon.jpg");
-const appId = "1047121222092614"
 
 
 const genres = ['Action', 'Animation', 'Children', 'Comedy', 'Fantasy', 'Sci-Fi', 'Horror', 'Fantasy', 'Romance']
@@ -157,7 +156,7 @@ export default class SignUpScreen extends Component {
     }
 
     onSignUp() {
-        Utility.register(this.state.username, this.state.password, this.state.name, this.state.email, image, genres[this.state.favouriteGenre], gender[this.state.gender], this.state.DOB).then((res) => {
+        Utility.register(this.state.username, this.state.password, this.state.name, this.state.email, this.state.image, genres[this.state.favouriteGenre], gender[this.state.gender], this.state.DOB).then((res) => {
             if (res != 'error') {
                 console.log('ok');
                 alert("Register Succeed!");

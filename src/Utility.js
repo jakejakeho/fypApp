@@ -8,7 +8,7 @@ import React, {
 
 
 const nodeGCP = 'https://fypbackend.mooo.com';
-const nodeLocal = 'http://192.168.0.108:3000';
+const nodeLocal = 'http://192.168.1.105:3000';
 const isDebug = 0;
 const node = isDebug ? nodeLocal : nodeGCP;
 const mlGCP = 'http://fypbackend.mooo.com:5000';
@@ -87,9 +87,6 @@ export default class Utility {
     }
 
     static async register(username, password, name, email, image, favouriteGenre, gender, DOB) {
-        if(image == null){
-            image = 'https://fypbackend.mooo.com/file/usericon/318dc87cd9f9228fff9335233ed77efa5cfb.jpg';
-        }
         try {
             let formdata = new FormData();
 
@@ -97,7 +94,8 @@ export default class Utility {
             formdata.append("password", password)
             formdata.append("name", name)
             formdata.append("email", email)
-            formdata.append('userImage', { uri: image, name: 'image.jpg', type: 'image/jpeg' })
+            if(image != null)
+                formdata.append('userImage', { uri: image, name: 'image.jpg', type: 'image/jpeg' })
             formdata.append('favouriteGenre', favouriteGenre);
             formdata.append('gender', gender);
             formdata.append('DOB', DOB);
