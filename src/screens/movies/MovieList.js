@@ -45,8 +45,9 @@ export default class MovieList extends Component {
         this.props.navigation.addListener(
             'didFocus',
             payload => {
-                this.setState({ buttonLoading: true });
+                
                 Utility.getRating().then((res) => {
+                    this.setState({ buttonLoading: true });
                     if (res.length > 0) {
                         Utility.makeRecommendations().then(() => {
                             this.setState({ buttonLoading: false });
