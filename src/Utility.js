@@ -314,7 +314,7 @@ export default class Utility {
                     movieId: recommendation
                 })
             })
-            let responseJson = await response.json();
+            let responseJson = await response.text();
             console.log(responseJson);
         } catch (error) {
             console.error(error);
@@ -340,7 +340,7 @@ export default class Utility {
             })
         });
         let recommendationjson = await recommendation.json();
-
+        console.log(recommendationjson);
         Utility.insertRecommendation(recommendationjson);
     }
 
