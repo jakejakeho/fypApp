@@ -21,6 +21,7 @@ import * as Animatable from 'react-native-animatable';
 
 const genres = ['All', 'Action', 'Animation', 'Children', 'Comedy', 'Fantasy', 'Sci-Fi', 'Horror', 'Fantasy', 'Romance']
 export default class MovieList extends Component {
+    _isMounted = false;
     state = {
         buttonLoading: true,
         loading: false,
@@ -42,10 +43,10 @@ export default class MovieList extends Component {
     }
 
     componentDidMount() {
+        this._isMounted = true;
         this.props.navigation.addListener(
             'didFocus',
             payload => {
-                
                 Utility.getRating().then((res) => {
                     this.setState({ buttonLoading: true });
                     if (res.length > 0) {

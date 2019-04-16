@@ -341,7 +341,9 @@ export default class Utility {
         });
         let recommendationjson = await recommendation.json();
         console.log(recommendationjson);
-        Utility.insertRecommendation(recommendationjson);
+        Utility.insertRecommendation(recommendationjson).then(()=>{
+            console.log("insert recommendationd done");
+        });
     }
 
     static async getRecommendationList() {
