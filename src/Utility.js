@@ -8,7 +8,7 @@ import React, {
 
 
 const nodeGCP = 'https://fypbackend.mooo.com';
-const nodeLocal = 'http://192.168.1.105:3000';
+const nodeLocal = 'http://192.168.1.105:3000'; 
 const isDebug = 0;
 const node = isDebug ? nodeLocal : nodeGCP;
 const mlGCP = 'http://fypbackend.mooo.com:5000';
@@ -327,18 +327,30 @@ export default class Utility {
         let user = await Utility.getUserDetail();
         console.log(`get user id : ${user._id}`);
 
-        let recommendation = await fetch(`${ml}/SVDrecommender`, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                userId: user._id,
-                data: response
+        let recommendation = await fetch(`${ml}/DQNrecommender`, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: user._id,
+                    data: response
+    
+                })
+            });
+        // let recommendation = await fetch(`${ml}/SVDrecommender`, {
+        //     method: 'POST',
+        //     headers: {
+        //         Accept: 'application/json',
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({
+        //         userId: user._id,
+        //         data: response
 
-            })
-        });
+        //     })
+        // });
         let recommendationjson = await recommendation.json();
         console.log(recommendationjson);
         Utility.insertRecommendation(recommendationjson).then(()=>{
@@ -391,4 +403,5 @@ export default class Utility {
             console.log(error);
         }
     }
+
 }
