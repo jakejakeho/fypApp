@@ -219,7 +219,7 @@ export default class MovieList extends Component {
                         refreshing={this.state.refreshing}
                         onRefresh={this.handleRefresh}
                         onEndReached={this.handleLoadMore}
-                        onEndReachedThreshold={0}
+                        onEndReachedThreshold={1}
                     />
                 </TouchableWithoutFeedback>
                 {this.renderRecommendationbutton()}

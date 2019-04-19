@@ -77,15 +77,9 @@ class SideBar extends Component {
         >
           <ImageBackground source={drawerCover} style={styles.drawerCover}>
             <View style={styles.profileView}>
-
-              {this.state.profile && (
-                <Avatar rounded source={{ uri: this.state.profile }} style={styles.drawerImage} />)}
-              {!this.state.profile && (
-                <Image source={profileImage} style={styles.drawerImage} />)}
-              {this.state.name && (
-                <Text style={styles.drawerUser} >{this.state.name}</Text>)}
-              {this.state.email && (
-                <Text style={styles.drawerEmail} >{this.state.email}</Text>)}
+                <Avatar rounded source={{ uri: this.state.profile }} style={styles.drawerImage} />
+                <Text style={styles.drawerUser} >{this.state.name}</Text>
+                <Text style={styles.drawerEmail} >{this.state.email}</Text>
             </View>
 
           </ImageBackground>
