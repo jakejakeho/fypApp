@@ -21,7 +21,6 @@ import * as Animatable from 'react-native-animatable';
 
 const genres = ['All', 'Action', 'Animation', 'Children', 'Comedy', 'Fantasy', 'Sci-Fi', 'Horror', 'Fantasy', 'Romance']
 export default class MovieList extends Component {
-    _isMounted = false;
     state = {
         buttonLoading: true,
         loading: false,
@@ -44,26 +43,23 @@ export default class MovieList extends Component {
     }
 
     componentDidMount() {
-        this._isMounted = true;
-        this.setState({ running: true});
         this.props.navigation.addListener(
             'didFocus',
             payload => {
-                if(this.state.running){
-                    Utility.getRating().then((res) => {
-                        this.setState({ buttonLoading: true });
-                        if (res.length > 0 && this.state.running) {
-                            Utility.makeRecommendations().then(() => {
-                                this.setState({ buttonLoading: false });
-                            });
-                        }
-                    });
-                }
+                this.setState({ running: true });
+                Utility.getRating().then((res) => {
+                    this.setState({ buttonLoading: true });
+                    if (res.length > 0) {
+                        Utility.makeRecommendations().then(() => {
+                            this.setState({ buttonLoading: false });
+                        });
+                    }
+                });
             }
         );
     }
-    componentWillUnmount(){
-        this.setState({ running: false});
+    componentWillUnmount() {
+        this.setState({ running: false });
     }
 
     makeRemoteRequest = () => {
@@ -160,24 +156,26 @@ export default class MovieList extends Component {
         )
     }
     renderRecommendationbutton = () => {
-        if (this.state.buttonLoading) {
-            return (
-                <Animatable.View animation="fadeOutDown" duration={500} style={{ alignItems: 'center' }}>
-                    <TouchableOpacity style={styles.button} onPress={this._renderRecommendation}>
-                        <Emoji name="sunglasses" style={styles.emoji} />
-                        <Text style={styles.text}>For You!</Text>
-                    </TouchableOpacity>
-                </Animatable.View>
-            );
-        } else {
-            return (
-                <Animatable.View animation="fadeInUp" style={{ alignItems: 'center' }}>
-                    <TouchableOpacity style={styles.button} onPress={this._renderRecommendation}>
-                        <Emoji name="sunglasses" style={styles.emoji} />
-                        <Text style={styles.text}>For You!</Text>
-                    </TouchableOpacity>
-                </Animatable.View>
-            );
+        if (this.state.running) {
+            if (this.state.buttonLoading) {
+                return (
+                    <Animatable.View animation="fadeOutDown" duration={500} style={{ alignItems: 'center' }}>
+                        <TouchableOpacity style={styles.button} onPress={this._renderRecommendation}>
+                            <Emoji name="sunglasses" style={styles.emoji} />
+                            <Text style={styles.text}>For You!</Text>
+                        </TouchableOpacity>
+                    </Animatable.View>
+                );
+            } else {
+                return (
+                    <Animatable.View animation="fadeInUp" style={{ alignItems: 'center' }}>
+                        <TouchableOpacity style={styles.button} onPress={this._renderRecommendation}>
+                            <Emoji name="sunglasses" style={styles.emoji} />
+                            <Text style={styles.text}>For You!</Text>
+                        </TouchableOpacity>
+                    </Animatable.View>
+                );
+            }
         }
     }
 
