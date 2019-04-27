@@ -36,6 +36,7 @@ export default class MovieList extends Component {
         isLastData: false,
         search: '',
         lastGenre: '',
+        running: true,
     };
 
     componentWillMount() {
@@ -44,19 +45,25 @@ export default class MovieList extends Component {
 
     componentDidMount() {
         this._isMounted = true;
+        this.setState({ running: true});
         this.props.navigation.addListener(
             'didFocus',
             payload => {
-                Utility.getRating().then((res) => {
-                    this.setState({ buttonLoading: true });
-                    if (res.length > 0) {
-                        Utility.makeRecommendations().then(() => {
-                            this.setState({ buttonLoading: false });
-                        });
-                    }
-                });
+                if(this.state.running){
+                    Utility.getRating().then((res) => {
+                        this.setState({ buttonLoading: true });
+                        if (res.length > 0 && this.state.running) {
+                            Utility.makeRecommendations().then(() => {
+                                this.setState({ buttonLoading: false });
+                            });
+                        }
+                    });
+                }
             }
         );
+    }
+    componentWillUnmount(){
+        this.setState({ running: false});
     }
 
     makeRemoteRequest = () => {
