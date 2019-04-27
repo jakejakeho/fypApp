@@ -43,7 +43,7 @@ class SideBar extends Component {
     this.state = {
       shadowOffsetWidth: 1,
       shadowRadius: 4,
-      profile: null,
+      profile: "https://fypbackend.mooo.com/" + "file/usericon/09f005179b070c5edba53daaeeb7b7dde790.jpg",
       name: '',
       email: '',
     };
