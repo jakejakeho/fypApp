@@ -17,7 +17,8 @@ import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab
 import styles from '../radio/styles';
 import Emoji from 'react-native-emoji';
 import * as Animatable from 'react-native-animatable';
-
+MyButton = Animatable.createAnimatableComponent(TouchableOpacity);
+MyEmoji = Animatable.createAnimatableComponent(Emoji);
 
 const genres = ['All', 'Action', 'Animation', 'Children', 'Comedy', 'Fantasy', 'Sci-Fi', 'Horror', 'Fantasy', 'Romance']
 export default class MovieList extends Component {
@@ -160,21 +161,22 @@ export default class MovieList extends Component {
         if (this.state.running) {
             if (this.state.buttonLoading) {
                 return (
-                    <Animatable.View animation="fadeOutDown" duration={500} style={{ alignItems: 'center' }}>
-                        <TouchableOpacity style={styles.button} onPress={this._renderRecommendation}>
-                            <Emoji name="sunglasses" style={styles.emoji} />
+                    <View style={{ alignItems: 'center' }}>
+                        <MyEmoji animation="fadeOutDown" duration={500} name="sunglasses" onPress={this._renderRecommendation} style={styles.emoji} />
+                        <MyButton animation="fadeOutDown" duration={500} style={styles.button} onPress={this._renderRecommendation}>
                             <Text style={styles.text}>For You!</Text>
-                        </TouchableOpacity>
-                    </Animatable.View>
+                        </MyButton>
+                    </View>
+
                 );
             } else {
                 return (
-                    <Animatable.View animation="fadeInUp" style={{ alignItems: 'center' }}>
-                        <TouchableOpacity style={styles.button} onPress={this._renderRecommendation}>
-                            <Emoji name="sunglasses" style={styles.emoji} />
+                    <View style={{ alignItems: 'center' }}>
+                        <MyEmoji animation="fadeInUp" duration={500} name="sunglasses" onPress={this._renderRecommendation} style={styles.emoji} />
+                        <MyButton animation="fadeInUp" duration={500} style={styles.button} onPress={this._renderRecommendation}>
                             <Text style={styles.text}>For You!</Text>
-                        </TouchableOpacity>
-                    </Animatable.View>
+                        </MyButton>
+                    </View>
                 );
             }
         }

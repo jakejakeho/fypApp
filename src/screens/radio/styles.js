@@ -17,11 +17,12 @@ export default {
   },
   text: {
     color: 'white',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   emoji: {
     position: 'absolute',
     fontSize: 40,
-    bottom: 30
+    bottom: 60,
+    zIndex:10
   }
 };
