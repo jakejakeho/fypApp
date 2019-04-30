@@ -22,7 +22,7 @@ import * as Animatable from 'react-native-animatable';
 const genres = ['All', 'Action', 'Animation', 'Children', 'Comedy', 'Fantasy', 'Sci-Fi', 'Horror', 'Fantasy', 'Romance']
 export default class MovieList extends Component {
     state = {
-        buttonLoading: true,
+        buttonLoading: false,
         loading: false,
         refreshing: false,
         data: [],
@@ -46,15 +46,16 @@ export default class MovieList extends Component {
         this.props.navigation.addListener(
             'didFocus',
             payload => {
-                this.setState({ running: true });
-                Utility.getRating().then((res) => {
-                    this.setState({ buttonLoading: true });
-                    if (res.length > 0) {
-                        Utility.makeRecommendations().then(() => {
-                            this.setState({ buttonLoading: false });
-                        });
-                    }
-                });
+                if (this.state.buttonLoading == false) {
+                    Utility.getRating().then((res) => {
+                        this.setState({ buttonLoading: true });
+                        if (res.length > 0) {
+                            Utility.makeRecommendations().then(() => {
+                                this.setState({ buttonLoading: false });
+                            });
+                        }
+                    });
+                }
             }
         );
     }
