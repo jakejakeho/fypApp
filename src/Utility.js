@@ -327,30 +327,30 @@ export default class Utility {
         let user = await Utility.getUserDetail();
         console.log(`get user id : ${user._id}`);
 
-        // let recommendation = await fetch(`${ml}/DQNrecommender`, {
-        //         method: 'POST',
-        //         headers: {
-        //             Accept: 'application/json',
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify({
-        //             userId: user._id,
-        //             data: response
+        let recommendation = await fetch(`${ml}/DQNrecommender`, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: user._id,
+                    data: response
     
-        //         })
-        //     });
-        let recommendation = await fetch(`${ml}/SVDrecommender`, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                userId: user._id,
-                data: response
+                })
+            });
+        // let recommendation = await fetch(`${ml}/SVDrecommender`, {
+        //     method: 'POST',
+        //     headers: {
+        //         Accept: 'application/json',
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({
+        //         userId: user._id,
+        //         data: response
 
-            })
-        });
+        //     })
+        // });
         let recommendationjson = await recommendation.json();
         console.log(recommendationjson);
         Utility.insertRecommendation(recommendationjson).then(()=>{
