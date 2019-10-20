@@ -13,6 +13,12 @@ import Card from '../card/Card';
 import CardSection from '../card/CardSection';
 import MovieDetail from './MovieDetail';
 import Utility from '../../Utility';
+import {
+    AdMobBanner,
+    AdMobInterstitial,
+    PublisherBanner,
+    AdMobRewarded
+} from 'expo';
 
 const { height } = Dimensions.get('window');
 
@@ -68,6 +74,11 @@ export default class MovieRecommendation extends Component {
                     onContentSizeChange={this.onContentSizeChange}>
                     {this.renderMovies(navigate)}
                 </ScrollView>
+                <AdMobBanner
+                    bannerSize="fullBanner"
+                    adUnitID="ca-app-pub-5413489190155141/2611617363" // Test ID, Replace with your-admob-unit-id
+                    testDeviceID="EMULATOR"
+                    onDidFailToReceiveAdWithError={this.bannerError} />
         </View>
         );
     }

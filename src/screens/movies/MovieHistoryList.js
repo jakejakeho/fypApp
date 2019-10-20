@@ -13,6 +13,12 @@ import {
     ActionSheet,
     Text
 } from "native-base";
+import {
+    AdMobBanner,
+    AdMobInterstitial,
+    PublisherBanner,
+    AdMobRewarded
+} from 'expo';
 import MovieDetail from './MovieDetail';
 import Utility from '../../Utility'
 const { height } = Dimensions.get('window');
@@ -57,10 +63,15 @@ export default class MovieHistoryList extends Component {
                     <Right />
                 </Header>
                 <ScrollView scrollEnabled={scrollEnabled}
-                contentContainerStyle={styles.scrollViewStyle}
+                    contentContainerStyle={styles.scrollViewStyle}
                     onContentSizeChange={this.onContentSizeChange}>
                     {this.renderMovies(navigate)}
                 </ScrollView>
+                <AdMobBanner
+                    bannerSize="fullBanner"
+                    adUnitID="ca-app-pub-5413489190155141/2611617363" // Test ID, Replace with your-admob-unit-id
+                    testDeviceID="EMULATOR"
+                    onDidFailToReceiveAdWithError={this.bannerError} />
             </View>
 
         );

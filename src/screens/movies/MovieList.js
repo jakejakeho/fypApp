@@ -16,6 +16,12 @@ import Utility from '../../Utility'
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view'
 import styles from '../radio/styles';
 import Emoji from 'react-native-emoji';
+import {
+    AdMobBanner,
+    AdMobInterstitial,
+    PublisherBanner,
+    AdMobRewarded
+} from 'expo';
 import * as Animatable from 'react-native-animatable';
 MyButton = Animatable.createAnimatableComponent(TouchableOpacity);
 MyEmoji = Animatable.createAnimatableComponent(Emoji);
@@ -230,6 +236,11 @@ export default class MovieList extends Component {
                         onEndReachedThreshold={1}
                     />
                 </TouchableWithoutFeedback>
+                <AdMobBanner
+                    bannerSize="fullBanner"
+                    adUnitID="ca-app-pub-5413489190155141/2611617363" // Test ID, Replace with your-admob-unit-id
+                    testDeviceID="EMULATOR"
+                    onDidFailToReceiveAdWithError={this.bannerError} />
                 {this.renderRecommendationbutton()}
 
             </View >

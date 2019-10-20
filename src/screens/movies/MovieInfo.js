@@ -17,6 +17,12 @@ import Card from '../card/Card';
 import CardSection from '../card/CardSection';
 import Utility from '../../Utility';
 import { Rating, AirbnbRating } from 'react-native-ratings';
+import {
+    AdMobBanner,
+    AdMobInterstitial,
+    PublisherBanner,
+    AdMobRewarded
+} from 'expo';
 
 
 
@@ -156,6 +162,11 @@ class MovieInfo extends Component {
                 <ScrollView>
                     {this.renderMovieInfo(params)}
                 </ScrollView>
+                <AdMobBanner
+                    bannerSize="fullBanner"
+                    adUnitID="ca-app-pub-5413489190155141/2611617363" // Test ID, Replace with your-admob-unit-id
+                    testDeviceID="EMULATOR"
+                    onDidFailToReceiveAdWithError={this.bannerError} />
             </View>
 
         );
